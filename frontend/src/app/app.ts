@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HealthService } from './service/health-service';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,15 @@ import { Component } from '@angular/core';
   standalone: false,
   styleUrl: './app.css'
 })
-export class App {
-  protected title = 'frontend';
+export class App implements OnInit {
+  protected title = 'ArgusTrialProject';
+
+  constructor(private healthService: HealthService) { }
+
+  ngOnInit(): void {
+    this.healthService.checkHealth().subscribe({
+      next: (res) => console.log(' Health:', res),
+      error: (err) => console.error('Health check failed:', err)
+    });
+  }
 }
