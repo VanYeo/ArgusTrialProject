@@ -1,1 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
+.button-red {
+    background-color: rgba(109, 0, 32, 1);
+    color: white;
+    border-radius: 12px;
+    padding: 0.5em 5em
+}
+
+body,
+h2,
+h3,
+p,
+span,
+a,
+button,
+input,
+textarea,
+select {
+    font-family: 'AmpleSoft Regular', sans-serif
+}
+
+h1 {
+    font-family: 'AmpleSoft Bold', sans-serif;
+}
+
+p{
+    font-family: 'AmpleSoft Light', sans-serif;
+}
+
+
+@font-face {
+    font-family: 'AmpleSoft Regular';
+    /* Choose a name for your font */
+    src: url('/fonts/amplesoft/AmpleSoftPro-Medium.woff') format('truetype');
+    /* Adjust path and format as needed */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AmpleSoft Bold';
+    /* Choose a name for your font */
+    src: url('/fonts/amplesoft/AmpleSoftPro-Bold.woff') format('truetype');
+    /* Adjust path and format as needed */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AmpleSoft Light';
+    /* Choose a name for your font */
+    src: url('/fonts/amplesoft/AmpleSoftPro-Light.woff') format('truetype');
+    /* Adjust path and format as needed */
+    font-weight: normal;
+    font-style: normal;
+}

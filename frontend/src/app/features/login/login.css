@@ -1,0 +1,63 @@
+/* container */
+.login-container {
+    height: 100vh;
+    width: 100vw;
+}
+
+/* background color */
+.argus-red {
+    background-color: rgba(218, 26, 50, 1);
+}
+
+/* sidebar */
+.sidebar {
+    display: flex;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.logo-picture {
+    width: 100%;
+    position: relative;
+    top: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.argus-logo {
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 5rem;
+
+}
+
+.automobile-pic {
+    width: 100%;
+    max-width: 90%;
+    height: auto;
+    object-fit: contain;
+}
+
+.illustration {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    bottom: 0;
+}
+
+/* login form */
+.sign-in {
+    color: rgba(35, 31, 32, 1);
+    margin-bottom: 0;
+}
+
+.forgot-pw {
+    color: rgba(2, 127, 197, 1);
+    text-decoration: underline;
+}
