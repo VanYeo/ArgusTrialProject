@@ -48,7 +48,12 @@ namespace backend.Data
         public AuthDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AuthDbContext>();
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=ArgusTrialAuthDb;Username=postgres;Password=12345678;");
+            var connectionString = Environment.GetEnvironmentVariable("AUTH_DB_CONNECTION_STRING");
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException("Environment variable AUTH_DB_CONNECTION_STRING not set.");
+            }
+            optionsBuilder.UseNpgsql(connectionString);
 
             return new AuthDbContext(optionsBuilder.Options);
         }

@@ -7,12 +7,12 @@ import { Router } from '@angular/router';
   selector: 'app-login',
   standalone: false,
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrl: './login.scss',
 })
 export class LoginComponent {
   private router = inject(Router);
   private loginService = inject(LoginService);
-  
+
   loginData = {
     email: '',
     password: '',
@@ -27,7 +27,7 @@ export class LoginComponent {
   }
 
   goToForgotPassword() {
-    this.router.navigate(['/forgot-password'])
+    this.router.navigate(['/forgot-password']);
   }
 
   onSubmit() {
@@ -35,10 +35,10 @@ export class LoginComponent {
     if (!this.disableSubmit) {
       this.errorMessage = '';
       this.loginService.submitLoginData(this.loginData).subscribe({
-        next: (token) => {
-          console.log('Token:', token);
-          this.errorMessage = '';
+        next: (res) => {
+          localStorage.setItem('authToken', res.token);
           this.router.navigate(['/dashboard']);
+          console.log(localStorage.getItem('authToken'));
         },
         error: (err) => {
           console.error(err);
