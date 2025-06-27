@@ -1,0 +1,94 @@
+<div class="container-fluid login-container">
+  <div class="row h-100">
+    <div class="col-12 col-md-4 sidebar argus-red">
+      <div class="logo-picture">
+        <img
+          class="argus-logo"
+          src="/AGT Logo White 01 (1) (1) 1.png"
+          alt="Logo"
+        />
+        <img
+          class="automobile-pic"
+          src="/automobile-blur-blurry-297925 1.png"
+          alt="Car"
+        />
+      </div>
+      <img
+        class="illustration"
+        src="/AGT Illustration Black 09 1.png"
+        alt="Illustration"
+      />
+    </div>
+
+    <div
+      class="col-12 col-md-8 d-flex align-items-center justify-content-center"
+    >
+    <div class="col-4"></div>
+      <div class="align-center col-4 col-md-4">
+        <h1 class="sign-in">Sign in</h1>
+        <p>Please enter your details to get started.</p>
+
+        <form (ngSubmit)="onSubmit()">
+        <div class="d-flex border-bottom">
+          <input
+            type="text"
+            placeholder="Email"
+            class="form-control border-0 shadow-none"
+            name="email"
+            [(ngModel)]="loginData.email"
+          />
+          <button
+            type="button"
+            class="btn border-0 bg-transparent"
+            (click)="loginData.email = ''">
+            <img src="/icons/cancel_input.svg" alt="cross">
+          </button>
+        </div>
+
+        <div class="mt-4 d-flex border-bottom px-0">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="Password"
+            class="form-control border-0 shadow-none"
+            name="password"
+            [(ngModel)]="loginData.password"
+          />
+          <button
+            type="button"
+            class="btn border-0 bg-transparent"
+            (click)="loginData.password = ''">
+            <img src="/icons/cancel_input.svg" alt="cross">
+          </button>
+          <button 
+            type="button" 
+            (click)="togglePassword()"
+            class="btn border-0 d-inline px-0">
+            <img src="/icons/eye_strikethrough.svg" *ngIf="!showPassword" alt="eye-strikethrough">
+            <img src="/icons/eye.svg" *ngIf="showPassword" alt="eye">
+          </button>
+        </div>
+
+        <div class="text-danger">
+          {{this.errorMessage}}
+        </div>
+
+        <div class="text-end my-4">
+          <button 
+            type="button" 
+            class="forgot-pw btn btn-outline-none"
+            (click)="goToForgotPassword()">
+            Forgot password
+          </button>
+        </div>
+
+        <button 
+          class="button-red" 
+          style="width: 100%" 
+          type="submit">Sign In</button>
+      </form>
+      </div>
+      
+      <div class="col-4"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+@font-face {
+    font-family: 'AmpleSoft Pro';
+    src: url('AmpleSoftPro-Bold.eot');
+    src: local('AmpleSoftPro-Bold'),
+        url('AmpleSoftPro-Bold.eot?#iefix') format('embedded-opentype'),
+        url('AmpleSoftPro-Bold.woff2') format('woff2'),
+        url('AmpleSoftPro-Bold.woff') format('woff'),
+        url('AmpleSoftPro-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AmpleSoft Pro';
+    src: url('AmpleSoftPro-Medium.eot');
+    src: local('AmpleSoftPro-Medium'),
+        url('AmpleSoftPro-Medium.eot?#iefix') format('embedded-opentype'),
+        url('AmpleSoftPro-Medium.woff2') format('woff2'),
+        url('AmpleSoftPro-Medium.woff') format('woff'),
+        url('AmpleSoftPro-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AmpleSoft Pro';
+    src: url('AmpleSoftPro-Light.eot');
+    src: local('AmpleSoftPro-Light'),
+        url('AmpleSoftPro-Light.eot?#iefix') format('embedded-opentype'),
+        url('AmpleSoftPro-Light.woff2') format('woff2'),
+        url('AmpleSoftPro-Light.woff') format('woff'),
+        url('AmpleSoftPro-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AmpleSoft Pro';
+    src: url('AmpleSoftPro-Thin.eot');
+    src: local('AmpleSoftPro-Thin'),
+        url('AmpleSoftPro-Thin.eot?#iefix') format('embedded-opentype'),
+        url('AmpleSoftPro-Thin.woff2') format('woff2'),
+        url('AmpleSoftPro-Thin.woff') format('woff'),
+        url('AmpleSoftPro-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AmpleSoft Pro';
+    src: url('AmpleSoftPro-ExtraLight.eot');
+    src: local('AmpleSoftPro-ExtraLight'),
+        url('AmpleSoftPro-ExtraLight.eot?#iefix') format('embedded-opentype'),
+        url('AmpleSoftPro-ExtraLight.woff2') format('woff2'),
+        url('AmpleSoftPro-ExtraLight.woff') format('woff'),
+        url('AmpleSoftPro-ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AmpleSoft Pro';
+    src: url('AmpleSoftPro-Regular.eot');
+    src: local('AmpleSoftPro-Regular'),
+        url('AmpleSoftPro-Regular.eot?#iefix') format('embedded-opentype'),
+        url('AmpleSoftPro-Regular.woff2') format('woff2'),
+        url('AmpleSoftPro-Regular.woff') format('woff'),
+        url('AmpleSoftPro-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+

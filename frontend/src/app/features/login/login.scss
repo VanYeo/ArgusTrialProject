@@ -1,0 +1,96 @@
+// Variables
+$argus-red: rgba(218, 26, 50, 1);
+$dark-grey: rgba(35, 31, 32, 1);
+$link-blue: rgba(2, 127, 197, 1);
+
+// Container
+.login-container {
+  height: 100vh;
+  width: 100vw;
+}
+
+// Sidebar Background
+.argus-red {
+  background-color: $argus-red;
+}
+
+// Sidebar
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  overflow: hidden;
+  position: relative;
+
+  .logo-picture {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    padding-top: 2rem;
+
+    .argus-logo {
+      max-width: 60%;
+      height: auto;
+      margin-bottom: 1rem;
+
+      @media (max-width: 767px) {
+        max-width: 35%;
+      }
+
+      @media (max-width: 480px) {
+        max-width: 45%;
+      }
+    }
+
+    .automobile-pic {
+      width: 100%;
+      max-width: 90%;
+      height: auto;
+      object-fit: contain;
+
+      @media (max-width: 767px) {
+        max-width: 40%;
+      }
+
+      @media (max-width: 480px) {
+        max-width: 50%;
+      }
+    }
+  }
+
+  .illustration {
+    width: 100%;
+    max-width: 90%;
+    height: auto;
+    object-fit: contain;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    @media (max-width: 767px) {
+      max-width: 40%;
+    }
+
+    @media (max-width: 480px) {
+      max-width: 70%;
+    }
+  }
+}
+
+// Login form
+.sign-in {
+  color: $dark-grey;
+  margin-bottom: 0;
+}
+
+.forgot-pw {
+  color: $link-blue;
+  text-decoration: underline;
+}
