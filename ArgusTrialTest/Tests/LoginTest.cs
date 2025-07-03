@@ -8,9 +8,36 @@ using System.Threading.Tasks;
 namespace ArgusTrialTest.Tests
 {
 
+
+    [Parallelizable(ParallelScope.Self)]
+    [TestFixture]
     public class LoginTest : PageTest
     {
         // No constructor needed; use default
+        [SetUp]
+        public async Task Setup()
+        {
+            await Context.Tracing.StartAsync(new()
+            {
+                Title = $"{TestContext.CurrentContext.Test.ClassName}.{TestContext.CurrentContext.Test.Name}",
+                Screenshots = true,
+                Snapshots = true,
+                Sources = true
+            });
+        }
+
+        [TearDown]
+        public async Task TearDown()
+        {
+            await Context.Tracing.StopAsync(new()
+            {
+                Path = Path.Combine(
+                    TestContext.CurrentContext.WorkDirectory,
+                    "playwright-traces",
+                    $"{TestContext.CurrentContext.Test.ClassName}.{TestContext.CurrentContext.Test.Name}.zip"
+                )
+            });
+        }
 
         [Test]
         public async Task SuccessfulUserLoginAIT1()
@@ -18,12 +45,11 @@ namespace ArgusTrialTest.Tests
             TestContext.Progress.WriteLine("Testing Successful User Login");
             var loginPage = new LoginPage(Page);
             await loginPage.GoTo();
-            await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/login");
+            var responseTask = Page.WaitForResponseAsync(response =>
+                response.Url.Contains("/dashboard") && response.Status == 200);
             await loginPage.LogInUser();
-            await Page.WaitForTimeoutAsync(2000);
-            await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/dashboard");
-            TestContext.Progress.WriteLine("Test Complete");
-            await Page.WaitForTimeoutAsync(7000);
+            var response = await responseTask;
+            Assert.That(response.Status, Is.EqualTo(200));
         }
 
         [Test]
@@ -32,12 +58,28 @@ namespace ArgusTrialTest.Tests
             TestContext.Progress.WriteLine("Testing Successful Admin Login");
             var loginPage = new LoginPage(Page);
             await loginPage.GoTo();
-            await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/login");
+            var responseTask = Page.WaitForResponseAsync(response =>
+                response.Url.Contains("/dashboard") && response.Status == 200);
             await loginPage.LogInAdmin();
-            await Page.WaitForTimeoutAsync(2000);
-            await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/dashboard");
-            TestContext.Progress.WriteLine("Test Complete");
-            await Page.WaitForTimeoutAsync(7000);
+            var response = await responseTask;
+            Assert.That(response.Status, Is.EqualTo(200));
+        }
+
+        [Test]
+        public async Task EmptyEmailLoginAIT2()
+        {
+            TestContext.Progress.WriteLine("Logging in with Empty Email");
+            var loginPage = new LoginPage(Page);
+            await loginPage.GoTo();
+            var responseTask = Page.WaitForResponseAsync(response =>
+                response.Url.Contains("/login") && response.Status == 400);
+            await loginPage.FillInAdminPass();
+            await loginPage.ClickLogin();
+            var response = await responseTask;
+            Assert.That(response.Status, Is.EqualTo(400));
+            var errorMessage = Page.Locator(".text-danger");
+            await Expect(errorMessage).ToBeVisibleAsync();
+            await Expect(errorMessage).ToHaveTextAsync("Email and password fields are required");
         }
 
         [Test]
@@ -46,32 +88,31 @@ namespace ArgusTrialTest.Tests
             TestContext.Progress.WriteLine("Logging in with Empty PW");
             var loginPage = new LoginPage(Page);
             await loginPage.GoTo();
-            await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/login");
-            await loginPage.FillInAdmin();
-            await Page.WaitForTimeoutAsync(2000);
-            await loginPage.ClickCancelPW();
-            await Page.WaitForTimeoutAsync(2000);
+            var responseTask = Page.WaitForResponseAsync(response =>
+                response.Url.Contains("/login") && response.Status == 400);
+            await loginPage.FillInAdminEmail();
             await loginPage.ClickLogin();
-            await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/login");
-            TestContext.Progress.WriteLine("Test Complete");
-            await Page.WaitForTimeoutAsync(7000);
+            var response = await responseTask;
+            Assert.That(response.Status, Is.EqualTo(400));
+            var errorMessage = Page.Locator(".text-danger");
+            await Expect(errorMessage).ToBeVisibleAsync();
+            await Expect(errorMessage).ToHaveTextAsync("Email and password fields are required");
         }
 
         [Test]
-        public async Task PWVisibilityToggleAIT6()
+        public async Task InvalidLoginAIT4()
         {
-            TestContext.Progress.WriteLine("Testing Toggle PW Visibility button, toggling 10 times");
+            TestContext.Progress.WriteLine("Logging in with Invalid Credentials");
             var loginPage = new LoginPage(Page);
             await loginPage.GoTo();
-            await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/login");
-            await loginPage.FillInAdmin();
-            for (int i = 0; i < 10; i++)
-            {
-                await loginPage.ClickTogglePWVisibility();
-                await Page.WaitForTimeoutAsync(3000);
-            }
-            TestContext.Progress.WriteLine("Test Complete");
-            await Page.WaitForTimeoutAsync(7000);
+            var responseTask = Page.WaitForResponseAsync(response =>
+                response.Url.Contains("/login") && response.Status == 400);
+            await loginPage.LogInInvalid();
+            var response = await responseTask;
+            Assert.That(response.Status, Is.EqualTo(400));
+            var errorMessage = Page.Locator(".text-danger");
+            await Expect(errorMessage).ToBeVisibleAsync();
+            await Expect(errorMessage).ToHaveTextAsync("Invalid email or password");
         }
 
         [Test]
@@ -81,41 +122,23 @@ namespace ArgusTrialTest.Tests
             var loginPage = new LoginPage(Page);
             await loginPage.GoTo();
             await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/login");
-            await Page.WaitForTimeoutAsync(2000);
             await loginPage.ClickForgotPW();
             await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/forgot-password");
-            await Page.WaitForTimeoutAsync(2000);
         }
 
         [Test]
-        public async Task EmptyEmailLoginAIT2()
+        public async Task PWVisibilityToggleAIT6()
         {
-            TestContext.Progress.WriteLine("Logging in with Empty Email");
+            TestContext.Progress.WriteLine("Testing Toggle PW Visibility button, toggling 10 times");
             var loginPage = new LoginPage(Page);
             await loginPage.GoTo();
             await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/login");
-            await loginPage.FillInAdmin();
-            await Page.WaitForTimeoutAsync(2000);
-            await loginPage.ClickCancelEmail();
-            await Page.WaitForTimeoutAsync(2000);
-            await loginPage.ClickLogin();
-            await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/login");
-            TestContext.Progress.WriteLine("Test Complete");
-            await Page.WaitForTimeoutAsync(7000);
+            await loginPage.FillInAdminPass();
+            for (int i = 0; i < 10; i++)
+            {
+                await loginPage.ClickTogglePWVisibility();
+                await Page.WaitForTimeoutAsync(1000);
+            }
         }
-        
-        [Test]
-        public async Task InvalidLoginAIT4()
-        {
-            TestContext.Progress.WriteLine("Logging in with Invalid Credentials");
-            var loginPage = new LoginPage(Page);
-            await loginPage.GoTo();
-            await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/login");
-            await loginPage.LogInInvalid();
-            await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/login");
-            TestContext.Progress.WriteLine("Test Complete");
-            await Page.WaitForTimeoutAsync(7000);
-        }
-
     }
 }

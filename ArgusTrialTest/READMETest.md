@@ -3,7 +3,8 @@
 1) 
 # Windows PowerShell
 $env:PWDEBUG="console"
-dotnet test
+dotnet test -- Playwright.BrowserName=chromium Playwright.LaunchOptions.Channel=chrome
+dotnet test -- Playwright.BrowserName=chromium Playwright.LaunchOptions.Channel=msedge
 
 2)
 dotnet test --settings playwright.runsettings
@@ -12,15 +13,16 @@ dotnet test --settings playwright.runsettings
 
 ### You may need to run the following commands first ###:
 
-1) For Installing EF Core CLI Tool
-dotnet tool install --global dotnet-ef
-
-2) Placing Tool in PATH
-setx PATH "%PATH%;%USERPROFILE%\.dotnet\tools"
-
-3) Installing Playwright for .NET
+1) Installing Playwright for .NET
 dotnet add package Microsoft.Playwright
 dotnet add package Microsoft.Playwright.NUnit
 
-4) Install Browsers
+2) Install Browsers
 pwsh bin/Debug/net8.0/playwright.ps1 install
+OR 
+powershell -File bin/Debug/net8.0/playwright.ps1 install
+
+
+#### TO VIEW THE STEP BY STEP TRACING OF THE TESTS, RUN ####
+
+powershell -File bin/Debug/net8.0/playwright.ps1 show-trace bin/Debug/net8.0/playwright-traces/ArgusTrialTest.Tests.LoginTest.EmptyEmailLoginAIT2.zip

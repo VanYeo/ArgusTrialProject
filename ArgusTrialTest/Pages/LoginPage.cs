@@ -18,7 +18,6 @@ namespace ArgusTrialTest.Pages
         public ILocator PasswordInput => _page.GetByPlaceholder("Password");
         public ILocator LoginButton => _page.GetByRole(AriaRole.Button, new() { Name = "Sign In", Exact = true });
         public ILocator ForgotPWButton => _page.GetByRole(AriaRole.Button, new() { Name = " Forgot password ", Exact = true });
-
         public ILocator CancelPWButton => _page.Locator("button[class='btn border-0 bg-transparent']").Nth(1);
         public ILocator CancelEmailButton => _page.Locator("button[class='btn border-0 bg-transparent']").Nth(0);
         public ILocator TogglePWVisibilityButton => _page.Locator("button[class='btn border-0 d-inline px-0']").Nth(0);
@@ -42,15 +41,21 @@ namespace ArgusTrialTest.Pages
             await LoginButton.ClickAsync();
         }
 
-        public async Task FillInAdmin()
+        public async Task FillInAdminEmail()
         {
             await UsernameInput.FillAsync(TestConfig.Adminemail);
-            await PasswordInput.FillAsync(TestConfig.Adminpass);
         }
 
-        public async Task FillInUser()
+        public async Task FillInAdminPass()
+        {
+            await PasswordInput.FillAsync(TestConfig.Adminpass);
+        }
+        public async Task FillInUserEmail()
         {
             await UsernameInput.FillAsync(TestConfig.Useremail);
+        }
+        public async Task FillInUserPass()
+        {
             await PasswordInput.FillAsync(TestConfig.Userpass);
         }
         public async Task ClickCancelPW()
