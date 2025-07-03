@@ -1,0 +1,220 @@
+$button-red: rgba(109, 0, 32, 1);
+$text-white: rgba(251, 251, 251, 1);
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .custom-sidenav {
+    position: fixed;
+    z-index: 1000;
+  }
+
+  .content-area {
+    padding: 1rem;
+  }
+}
+
+.content-area {
+  flex: 1;
+  padding: 1rem 2rem;
+  overflow-y: auto;
+}
+
+.content-area h1 {
+  color: rgba(35, 31, 32, 1);
+  font-family: "AmpleSoft Regular", sans-serif;
+  font-size: 40px;
+  margin-bottom: 1rem;
+}
+
+.input-icon-wrapper {
+  border: 1px solid rgba(208, 203, 201, 1);
+  border-radius: 8px;
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(255, 255, 255, 1);
+  gap: 0.25rem;
+
+  &:focus,
+  &:active {
+    border-color: rgba(133, 131, 131, 1);
+  }
+
+  input {
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+  }
+
+  .custom-toggle .dropdown-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .custom-toggle[aria-expanded="true"] .dropdown-icon {
+    transform: rotate(180deg);
+  }
+}
+
+.button-red {
+  padding: 0.75rem 0;
+}
+
+span {
+  color: $button-red;
+}
+
+.dropdown-toggle {
+  color: transparent;
+
+  &::after {
+    display: none;
+  }
+}
+
+.dropdown-menu {
+  font-family: "AmpleSoft Regular", sans-serif;
+  border: 0;
+  border-radius: 8px;
+  background-color: $text-white;
+  box-shadow: 0px 4px 16px 0 rgba(0, 0, 0, 0.25);
+  margin-top: 12px;
+  width: 288px;
+  z-index: 1000;
+  &::before {
+    content: "";
+    position: absolute;
+    top: -8px; 
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid $text-white; 
+  }
+  h6 {
+    font-size: 0.9rem;
+    color: rgba(133, 131, 131, 1);
+  }
+
+  li {
+    padding: 0.5rem;
+  }
+
+  span {
+    color: $button-red;
+  }
+
+  .button-red {
+    padding: 0.5rem 1.5rem;
+  }
+
+  .form-check {
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(239, 227, 230, 1);
+      cursor: pointer;
+    }
+  }
+
+  .clear-all {
+    background-color: transparent;
+    border: 0;
+    color: $button-red;
+  }
+
+  label{
+    cursor: pointer;
+  }
+}
+
+button {
+  border: 0;
+  outline: none;
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+
+  &:checked {
+    background-color: $button-red;
+  }
+  &::after {
+    display: none;
+  }
+}
+
+.form-check-input {
+  box-shadow: none;
+  border: 1px solid rgba(145, 134, 129, 1);
+
+  &:checked {
+    background-color: $button-red;
+    border-color: $button-red;
+  }
+}
+
+.clients-rows {
+    background-color: rgba(250, 250, 249, 1);
+    cursor: pointer;
+  }
+
+.table {
+  box-shadow: 0 16px 10px 0 rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(236, 234, 231, 1);
+  border-radius: 8px;
+
+  thead tr th {
+    background-color: rgba(239, 238, 237, 1);
+    color: rgba(59, 56, 57, 1);
+    font-family: "AmpleSoft Bold", sans-serif;
+    font-size: 16px;
+  }
+
+  
+  td {
+    padding: 1rem;
+    
+  }
+
+  select {
+    border: 0;
+    border-bottom: 1px solid rgba(84, 81, 82, 1);
+    outline: 0;
+    border-radius: 0;
+
+    &:focus,
+    &:active {
+      box-shadow: none;
+      outline: none;
+    }
+
+    option {
+      border: none;
+
+      &:hover {
+        background-color: rgba(245, 245, 245, 1);
+      }
+
+      &:focus,
+      &:active {
+        background-color: $button-red;
+      }
+    }
+  }
+
+  .page-num button {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+
+    &:hover {
+      background-color: rgba(239, 227, 230, 1);
+    }
+
+    &:active,
+    &:focus {
+      background-color: $button-red;
+      color: white;
+    }
+  }
+}

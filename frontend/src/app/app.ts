@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { HealthService } from './service/health-service';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -9,13 +11,27 @@ import { HealthService } from './service/health-service';
 })
 export class App implements OnInit {
   protected title = 'ArgusTrialProject';
+  private healthService = inject(HealthService)
+  private router = inject(Router)
 
-  constructor(private healthService: HealthService) { }
+  hideLayout = false;
+  opened = true;
 
   ngOnInit(): void {
     this.healthService.checkHealth().subscribe({
-      next: (res) => console.log(' Health:', res),
+      next: (res) => console.log('Health:', res),
       error: (err) => console.error('Health check failed:', err)
     });
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.hideLayout = event.urlAfterRedirects === '/login';
+      });
+  }
+
+  toggleSidebar() {
+    this.opened = !this.opened;
+    console.log('Sidebar opened:', this.opened);
   }
 }

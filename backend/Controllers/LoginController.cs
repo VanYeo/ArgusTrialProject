@@ -21,14 +21,12 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequestDto)
         {
-            var (isAuthenticated, token) = await loginService.LoginAsync(loginRequestDto.Email, loginRequestDto.Password);
+            var result = await loginService.LoginAsync(loginRequestDto.Email, loginRequestDto.Password);
 
-            if (isAuthenticated && token != null)
-            {
-                return Ok(new { token });
-            }
+            if (result == null)
+                return BadRequest("Invalid email or password");
 
-            return BadRequest("Invalid email or password");
+            return Ok(result);
         }
     }
 }

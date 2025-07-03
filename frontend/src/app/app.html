@@ -1,1 +1,28 @@
-<router-outlet></router-outlet>
+<ng-container *ngIf="!hideLayout; else loginOnly">
+  <mat-sidenav-container class="sidenav-container" [class.sidebar-collapsed]="!opened">
+    <!-- Side Navigation -->
+    <mat-sidenav
+      *ngIf="!hideLayout"
+      #sidenav
+      class="custom-sidenav"
+      mode="side"
+      [opened]="true"
+      [class.collapsed]="!opened"
+    >
+      <app-sidebar
+        [opened]="opened"
+        (toggleSidebar)="toggleSidebar()"
+      ></app-sidebar>
+    </mat-sidenav>
+
+    <!-- Main Content -->
+    <mat-sidenav-content class="main-content">
+      <app-navbar *ngIf="!hideLayout"></app-navbar>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-container>
+
+<ng-template #loginOnly>
+  <router-outlet></router-outlet>
+</ng-template>

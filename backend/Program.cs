@@ -29,11 +29,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AuthDbContext>(options =>
+builder.Services.AddDbContext<ClientsDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("AuthConnectionString");
+    var connectionString = builder.Configuration.GetConnectionString("ClientsConnectionString");
     options.UseNpgsql(connectionString);
 });
+
 
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
@@ -42,7 +43,7 @@ builder.Services.AddDataProtection();
 
 builder.Services.AddIdentityCore<IdentityUser>()
     .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("ArgusTrialProject")
-    .AddEntityFrameworkStores<AuthDbContext>()
+    .AddEntityFrameworkStores<ClientsDbContext>()
     .AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(options =>
@@ -67,6 +68,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     });
 
+builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -84,5 +87,19 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+try
+{
+    using var scope = app.Services.CreateScope();
+    var services = scope.ServiceProvider;
 
+    var context = services.GetRequiredService<ClientsDbContext>();
+    await context.Database.MigrateAsync();
+
+    await ClientsContextSeed.SeedAsync(context);
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex);
+    throw;
+}
 app.Run();

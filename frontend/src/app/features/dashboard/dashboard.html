@@ -1,1 +1,277 @@
-dashboard
+<div class="content-area h-100">
+  <h1>Clients</h1>
+  <div class="row d-flex align-items-center">
+    <!-- Left side: Search / Filter / Columns -->
+    <div class="col-5">
+      <div class="d-flex align-items-center w-100 gap-2">
+        <!-- Search -->
+        <app-search-combobox
+          [columnOptions]="columnsSections"
+          (searchChange)="onSearchChange($event)"
+          class="flex-grow-1"
+        ></app-search-combobox>
+
+        <!-- Filter -->
+        <div class="dropdown-center">
+          <button
+            class="btn dropdown-toggle d-flex align-items-center"
+            type="button"
+            data-bs-toggle="dropdown"
+            data-bs-auto-close="outside"
+            aria-expanded="false"
+          >
+            <img src="/icons/dashboard/filter.svg" class="pe-2" alt="" />
+            <span>Filter</span>
+          </button>
+
+          <ul class="dropdown-menu p-3">
+            <h5>Filter</h5>
+
+            <!-- Select All -->
+            <li class="d-flex align-items-center form-check">
+              <input
+                class="form-check-input me-2"
+                type="checkbox"
+                id="select-all-filters"
+                [(ngModel)]="selectAllCheckedFilters"
+                (change)="onToggleAllFilters()"
+              />
+              <label for="select-all-filters" class="form-check-label"
+                >Select All</label
+              >
+            </li>
+
+            <hr class="dropdown-divider" />
+
+            <!-- Dynamic filter sections -->
+            <ng-container *ngFor="let section of filterSections">
+              <h6>{{ section.title }}</h6>
+              <li
+                class="d-flex align-items-center form-check"
+                *ngFor="let opt of section.options"
+              >
+                <input
+                  class="form-check-input me-2"
+                  type="checkbox"
+                  [id]="opt.id"
+                  [(ngModel)]="opt.checked"
+                  (change)="onUpdateSelectAllState()"
+                />
+                <label class="form-check-label" [for]="opt.id">
+                  {{ opt.label }}
+                </label>
+              </li>
+              <hr class="dropdown-divider" />
+            </ng-container>
+
+            <!-- Bottom buttons -->
+            <li class="d-flex justify-content-between align-items-center p-0">
+              <button class="clear-all" (click)="onClearAllFilters()">
+                Clear All
+              </button>
+              <button class="button-red" (click)="onApplyFilters()">Apply</button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Columns -->
+        <div class="dropdown-center">
+          <button
+            class="btn dropdown-toggle d-flex align-items-center"
+            type="button"
+            data-bs-toggle="dropdown"
+            data-bs-auto-close="outside"
+            aria-expanded="false"
+          >
+            <img src="/icons/dashboard/columns.svg" class="pe-2" alt="" />
+            <span>Columns</span>
+          </button>
+          <ul class="dropdown-menu p-3">
+            <h5>Filter</h5>
+
+            <!-- Select All -->
+            <li class="d-flex align-items-center form-check">
+              <input
+                class="form-check-input me-2"
+                type="checkbox"
+                id="select-all-columns"
+                [(ngModel)]="selectAllCheckedColumns"
+                (change)="onToggleAllColumns()"
+              />
+              <label for="select-all-columns" class="form-check-label"
+                >Select All</label
+              >
+            </li>
+
+            <hr class="dropdown-divider" />
+
+            <!-- Dynamic filter sections -->
+            <ng-container *ngFor="let opt of columnsSectionsTemp">
+              <li class="d-flex align-items-center form-check">
+                <input
+                  class="form-check-input me-2"
+                  type="checkbox"
+                  [id]="opt.id"
+                  [(ngModel)]="opt.checked"
+                  (change)="onUpdateSelectAllColumnsState()"
+                />
+                <label class="form-check-label" [for]="opt.id">
+                  {{ opt.label }}
+                </label>
+              </li>
+            </ng-container>
+            <hr class="dropdown-divider" />
+
+            <!-- Bottom buttons -->
+            <li class="d-flex justify-content-between align-items-center p-0">
+              <button class="clear-all" (click)="onClearAllColumns()">
+                Clear All
+              </button>
+              <button class="button-red" (click)="onApplyColumns()">Apply</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spacer -->
+    <div class="col-5"></div>
+
+    <!-- Right-aligned Add Client button -->
+    <div class="col-2 d-flex justify-content-end">
+      <button
+        class="button-red w-50"
+        routerLink="/add-client"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Add Client
+      </button>
+    </div>
+  </div>
+
+  <!-- dashboard -->
+  <table class="table mt-4 rounded-4">
+    <thead>
+      <tr class="text-center">
+        <th *ngFor="let column of columnsSections" [hidden]="!column.checked">
+          {{ column.label }}
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr
+        class="text-center clients-rows"
+        *ngFor="let client of clients"
+        (click)="viewClient(client)"
+      >
+        <!-- Dynamically show only checked columns -->
+        <td *ngIf="isColumnChecked('clientID')">{{ client.clientID }}</td>
+        <td *ngIf="isColumnChecked('companyName')">{{ client.companyName }}</td>
+        <td *ngIf="isColumnChecked('tradingName')">{{ client.tradingName }}</td>
+        <td *ngIf="isColumnChecked('contact')">{{ client.contact }}</td>
+        <td *ngIf="isColumnChecked('phone')">{{ client.phone }}</td>
+        <td *ngIf="isColumnChecked('mobile')">{{ client.mobile }}</td>
+        <td *ngIf="isColumnChecked('email')">{{ client.email }}</td>
+
+        <!-- Contract End Column with conditional formatting -->
+        <td *ngIf="isColumnChecked('contractEnd')">
+          <ng-container
+            *ngIf="calculateContractExpiry(client.startDate, client.contractTermMonths) as expiry"
+          >
+            <span
+              [class.text-black]="!hasContractExpired(client.startDate, client.contractTermMonths)"
+              [class.text-danger]="hasContractExpired(client.startDate, client.contractTermMonths)"
+            >
+              {{ expiry | date: 'dd/MM/yyyy' }}
+            </span>
+          </ng-container>
+          <ng-container
+            *ngIf="!calculateContractExpiry(client.startDate, client.contractTermMonths)"
+          >
+            -
+          </ng-container>
+        </td>
+
+        <td *ngIf="isColumnChecked('connections')">{{ client.connections }}</td>
+
+        <td *ngIf="isColumnChecked('actions')" class="text-center gap-2">
+          <button class="btn btn-transparent">
+            <img src="icons/dashboard/expand.svg" alt="expand" />
+          </button>
+          <button class="btn btn-transparent">
+            <img src="icons/dashboard/car.svg" alt="expand" />
+          </button>
+          <button class="btn btn-transparent">
+            <img src="icons/dashboard/more.svg" alt="expand" />
+          </button>
+        </td>
+      </tr>
+
+      <!-- pagination -->
+      <tr *ngIf="clients.length!=0">
+        <td colspan="10">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              Rows per page:
+              <select
+                [(ngModel)]="pageSize"
+                (ngModelChange)="onPaginationChange()"
+              >
+                <option
+                  class="border border-0"
+                  *ngFor="let size of [5, 10, 20, 50]"
+                  [ngValue]="size"
+                >
+                  {{ size }}
+                </option>
+              </select>
+
+              <div class="ms-3 d-inline">
+                {{ totalCount === 0 ? '0 - 0' : ((pageIndex - 1) * pageSize + 1)
+                + ' - ' + Math.min(pageIndex * pageSize, totalCount) }} of {{
+                totalCount }}
+              </div>
+            </div>
+
+            <div class="gap-2">
+              <button
+                class="btn btn-transparent btn-sm"
+                [disabled]="pageIndex === 1"
+                (click)="prevPage()"
+              >
+                <
+              </button>
+              <div class="d-inline page-num text-center">
+                <ng-container *ngFor="let page of getPageNumbers()">
+                  <button
+                    class="btn btn-sm mx-1 rounded-circle"
+                    [class.active]="page === pageIndex"
+                    [disabled]="page === -1"
+                    (click)="goToPage(page)"
+                  >
+                    {{ page === -1 ? '...' : page }}
+                  </button>
+                </ng-container>
+              </div>
+
+              <button
+                class="btn btn-transparent btn-sm"
+                [disabled]="!hasNextPage"
+                (click)="nextPage()"
+              >
+                >
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="clients.length==0">
+      <tr>
+        <td colspan="10" class="text-center">No results found.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

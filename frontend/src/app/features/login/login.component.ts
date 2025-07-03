@@ -36,9 +36,11 @@ export class LoginComponent {
       this.errorMessage = '';
       this.loginService.submitLoginData(this.loginData).subscribe({
         next: (res) => {
-          localStorage.setItem('authToken', res.token);
-          this.router.navigate(['/dashboard']);
-          console.log(localStorage.getItem('authToken'));
+          localStorage.setItem('authToken', res.jwtToken);
+          localStorage.setItem('email', res.email)
+          this.router.navigate(['/clients']);
+          console.log(localStorage.getItem('email'),localStorage.getItem('authToken'));
+          
         },
         error: (err) => {
           console.error(err);

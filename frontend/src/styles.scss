@@ -1,0 +1,86 @@
+.button-red {
+    background-color: rgba(109, 0, 32, 1);
+    color: rgba(251, 251, 251, 1);
+    border-radius: 8px;
+    padding: 0.5rem 1.5rem;
+    border: 0;
+}
+
+body,
+h2,
+h3,
+a,
+button,
+input,
+textarea,
+select {
+    font-family: 'AmpleSoft Regular', sans-serif
+}
+
+h1 {
+    font-family: 'AmpleSoft Bold', sans-serif;
+}
+
+p{
+    font-family: 'AmpleSoft Light', sans-serif;
+}
+
+@font-face {
+    font-family: 'AmpleSoft Bold';
+    /* Choose a name for your font */
+    src: url('/fonts/amplesoft/AmpleSoftPro-Bold.woff') format('truetype');
+    /* Adjust path and format as needed */
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AmpleSoft Regular';
+    /* Choose a name for your font */
+    src: url('/fonts/amplesoft/AmpleSoftPro-Regular.woff') format('truetype');
+    /* Adjust path and format as needed */
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'AmpleSoft Light';
+    /* Choose a name for your font */
+    src: url('/fonts/amplesoft/AmpleSoftPro-Light.woff') format('truetype');
+    /* Adjust path and format as needed */
+    font-weight: normal;
+    font-style: normal;
+}
+/* Change tooltip background and text color */
+.tooltip-inner {
+  background-color: rgba(255, 255, 255, 1) !important; /* Your desired background */
+  color: rgba(35, 31, 32, 1) !important;            /* Your desired text color */
+  font-size: 1rem;
+  border-radius: 8px;
+  padding: 8px 16px;
+  box-shadow: -6px 2px 24px 0 rgba(0,0,0,0.12)
+}
+
+/* Change the tooltip arrow color (for right placement) */
+.bs-tooltip-end .tooltip-arrow::before {
+  background-color:  rgba(255, 255, 255, 1) !important;
+}
+
+/* For Bootstrap 5 tooltip arrow (all placements) */
+.bs-tooltip-top .tooltip-arrow::before,
+.bs-tooltip-auto[data-popper-placement^="top"] .tooltip-arrow::before {
+  border-top-color: #fff !important;
+}
+.bs-tooltip-bottom .tooltip-arrow::before,
+.bs-tooltip-auto[data-popper-placement^="bottom"] .tooltip-arrow::before {
+  border-bottom-color: #fff !important;
+}
+.bs-tooltip-end .tooltip-arrow::before,
+.bs-tooltip-auto[data-popper-placement^="right"] .tooltip-arrow::before {
+  border-right-color: #fff !important;
+}
+.bs-tooltip-start .tooltip-arrow::before,
+.bs-tooltip-auto[data-popper-placement^="left"] .tooltip-arrow::before {
+  border-left-color: #fff !important;
+}
