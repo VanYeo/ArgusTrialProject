@@ -1,0 +1,642 @@
+﻿[
+  {
+    "CompanyName": "NZ Tech Solutions 1",
+    "TradingName": "NZTrade1",
+    "Contact": "Contact NZ1",
+    "Phone": "6368755",
+    "Mobile": "6855710",
+    "Connections": 0,
+    "Email": "nzclient1@example.nz",
+    "StartDate": "2024-04-23T00:00:00Z",
+    "ContractTermMonths": 24,
+    "Notes": "New Zealand based client 1",
+    "AccountDetail": {
+      "AccountName": "Account NZ1",
+      "AccountEmail": "account1@example.nz",
+      "EmailBillTo": "billing1@example.nz",
+      "AccountPhone": "7117761",
+      "AccountManager": "Manager NZ1"
+    },
+    "Addresses": [
+      {
+        "Type": "Billing",
+        "Street": "1 Tech Park Road",
+        "City": "Auckland",
+        "State": "NZ",
+        "Zip": "10000",
+        "Country": "New Zealand"
+      },
+      {
+        "Type": "Shipping",
+        "Street": "1 Industry Lane",
+        "City": "Wellington",
+        "State": "NZ",
+        "Zip": "20000",
+        "Country": "New Zealand"
+      }
+    ],
+    "Options": {
+      "ActiveAccount": true,
+      "MasterAccount": false,
+      "BillingCSV": false,
+      "GOG": false,
+      "EJobsClient": false
+    },
+    "Plugins": {
+      "SmartRenew": false,
+      "CustomBranding": true,
+      "SendMessage": true
+    },
+    "Integrations": {
+      "SOSEventPush": true,
+      "PVBSClient": false,
+      "VWorkClient": false,
+      "APIKey": false,
+      "SSO": false
+    },
+    "Plans": {
+      "RoadRedPlan": "MIDI",
+      "IoTPlan": "LOCI",
+      "SoftwarePlan": "MIDI",
+      "AssignPPToAllAULS": false,
+      "RolloverAgreement": true,
+      "IsNonBillingAccount": true
+    }
+  },
+  {
+    "CompanyName": "NZ Tech Solutions 2",
+    "TradingName": "NZTrade2",
+    "Contact": "Contact NZ2",
+    "Phone": "2278562",
+    "Mobile": "8225397",
+    "Connections": 0,
+    "Email": "nzclient2@example.nz",
+    "StartDate": "2024-01-09T00:00:00Z",
+    "ContractTermMonths": 24,
+    "Notes": "New Zealand based client 2",
+    "AccountDetail": {
+      "AccountName": "Account NZ2",
+      "AccountEmail": "account2@example.nz",
+      "EmailBillTo": "billing2@example.nz",
+      "AccountPhone": "5830095",
+      "AccountManager": "Manager NZ2"
+    },
+    "Addresses": [
+      {
+        "Type": "Billing",
+        "Street": "2 Tech Park Road",
+        "City": "Auckland",
+        "State": "NZ",
+        "Zip": "10001",
+        "Country": "New Zealand"
+      },
+      {
+        "Type": "Shipping",
+        "Street": "2 Industry Lane",
+        "City": "Wellington",
+        "State": "NZ",
+        "Zip": "20001",
+        "Country": "New Zealand"
+      }
+    ],
+    "Options": {
+      "ActiveAccount": true,
+      "MasterAccount": false,
+      "BillingCSV": false,
+      "GOG": true,
+      "EJobsClient": true
+    },
+    "Plugins": {
+      "SmartRenew": false,
+      "CustomBranding": false,
+      "SendMessage": false
+    },
+    "Integrations": {
+      "SOSEventPush": true,
+      "PVBSClient": false,
+      "VWorkClient": true,
+      "APIKey": false,
+      "SSO": true
+    },
+    "Plans": {
+      "RoadRedPlan": "MIDI",
+      "IoTPlan": "VISI",
+      "SoftwarePlan": "MIDI",
+      "AssignPPToAllAULS": true,
+      "RolloverAgreement": true,
+      "IsNonBillingAccount": false
+    }
+  },
+  {
+    "CompanyName": "NZ Tech Solutions 3",
+    "TradingName": "NZTrade3",
+    "Contact": "Contact NZ3",
+    "Phone": "3109400",
+    "Mobile": "8430729",
+    "Connections": 0,
+    "Email": "nzclient3@example.nz",
+    "StartDate": "2024-12-31T00:00:00Z",
+    "ContractTermMonths": 12,
+    "Notes": "New Zealand based client 3",
+    "AccountDetail": {
+      "AccountName": "Account NZ3",
+      "AccountEmail": "account3@example.nz",
+      "EmailBillTo": "billing3@example.nz",
+      "AccountPhone": "7172304",
+      "AccountManager": "Manager NZ3"
+    },
+    "Addresses": [
+      {
+        "Type": "Billing",
+        "Street": "3 Tech Park Road",
+        "City": "Auckland",
+        "State": "NZ",
+        "Zip": "10002",
+        "Country": "New Zealand"
+      },
+      {
+        "Type": "Shipping",
+        "Street": "3 Industry Lane",
+        "City": "Wellington",
+        "State": "NZ",
+        "Zip": "20002",
+        "Country": "New Zealand"
+      }
+    ],
+    "Options": {
+      "ActiveAccount": true,
+      "MasterAccount": false,
+      "BillingCSV": true,
+      "GOG": true,
+      "EJobsClient": true
+    },
+    "Plugins": {
+      "SmartRenew": true,
+      "CustomBranding": true,
+      "SendMessage": true
+    },
+    "Integrations": {
+      "SOSEventPush": false,
+      "PVBSClient": false,
+      "VWorkClient": false,
+      "APIKey": false,
+      "SSO": true
+    },
+    "Plans": {
+      "RoadRedPlan": "MIDI",
+      "IoTPlan": "ASSIST",
+      "SoftwarePlan": "ASSIST",
+      "AssignPPToAllAULS": false,
+      "RolloverAgreement": true,
+      "IsNonBillingAccount": true
+    }
+  },
+  {
+    "CompanyName": "NZ Tech Solutions 4",
+    "TradingName": "NZTrade4",
+    "Contact": "Contact NZ4",
+    "Phone": "5978362",
+    "Mobile": "5283013",
+    "Connections": 0,
+    "Email": "nzclient4@example.nz",
+    "StartDate": "2024-07-01T00:00:00Z",
+    "ContractTermMonths": 36,
+    "Notes": "New Zealand based client 4",
+    "AccountDetail": {
+      "AccountName": "Account NZ4",
+      "AccountEmail": "account4@example.nz",
+      "EmailBillTo": "billing4@example.nz",
+      "AccountPhone": "2928284",
+      "AccountManager": "Manager NZ4"
+    },
+    "Addresses": [
+      {
+        "Type": "Billing",
+        "Street": "4 Tech Park Road",
+        "City": "Auckland",
+        "State": "NZ",
+        "Zip": "10003",
+        "Country": "New Zealand"
+      },
+      {
+        "Type": "Shipping",
+        "Street": "4 Industry Lane",
+        "City": "Wellington",
+        "State": "NZ",
+        "Zip": "20003",
+        "Country": "New Zealand"
+      }
+    ],
+    "Options": {
+      "ActiveAccount": false,
+      "MasterAccount": true,
+      "BillingCSV": true,
+      "GOG": false,
+      "EJobsClient": true
+    },
+    "Plugins": {
+      "SmartRenew": false,
+      "CustomBranding": true,
+      "SendMessage": true
+    },
+    "Integrations": {
+      "SOSEventPush": false,
+      "PVBSClient": true,
+      "VWorkClient": true,
+      "APIKey": true,
+      "SSO": true
+    },
+    "Plans": {
+      "RoadRedPlan": "LOCI",
+      "IoTPlan": "ASSIST",
+      "SoftwarePlan": "OMNI",
+      "AssignPPToAllAULS": false,
+      "RolloverAgreement": true,
+      "IsNonBillingAccount": true
+    }
+  },
+  {
+    "CompanyName": "NZ Tech Solutions 5",
+    "TradingName": "NZTrade5",
+    "Contact": "Contact NZ5",
+    "Phone": "8498938",
+    "Mobile": "5533398",
+    "Connections": 0,
+    "Email": "nzclient5@example.nz",
+    "StartDate": "2024-03-29T00:00:00Z",
+    "ContractTermMonths": 12,
+    "Notes": "New Zealand based client 5",
+    "AccountDetail": {
+      "AccountName": "Account NZ5",
+      "AccountEmail": "account5@example.nz",
+      "EmailBillTo": "billing5@example.nz",
+      "AccountPhone": "2087248",
+      "AccountManager": "Manager NZ5"
+    },
+    "Addresses": [
+      {
+        "Type": "Billing",
+        "Street": "5 Tech Park Road",
+        "City": "Auckland",
+        "State": "NZ",
+        "Zip": "10004",
+        "Country": "New Zealand"
+      },
+      {
+        "Type": "Shipping",
+        "Street": "5 Industry Lane",
+        "City": "Wellington",
+        "State": "NZ",
+        "Zip": "20004",
+        "Country": "New Zealand"
+      }
+    ],
+    "Options": {
+      "ActiveAccount": false,
+      "MasterAccount": false,
+      "BillingCSV": true,
+      "GOG": true,
+      "EJobsClient": false
+    },
+    "Plugins": {
+      "SmartRenew": false,
+      "CustomBranding": true,
+      "SendMessage": false
+    },
+    "Integrations": {
+      "SOSEventPush": false,
+      "PVBSClient": true,
+      "VWorkClient": false,
+      "APIKey": true,
+      "SSO": false
+    },
+    "Plans": {
+      "RoadRedPlan": "OMNI",
+      "IoTPlan": "VISI",
+      "SoftwarePlan": "OMNI",
+      "AssignPPToAllAULS": true,
+      "RolloverAgreement": false,
+      "IsNonBillingAccount": false
+    }
+  },
+  {
+    "CompanyName": "NZ Tech Solutions 6",
+    "TradingName": "NZTrade6",
+    "Contact": "Contact NZ6",
+    "Phone": "3829385",
+    "Mobile": "9553381",
+    "Connections": 0,
+    "Email": "nzclient6@example.nz",
+    "StartDate": "2024-01-13T00:00:00Z",
+    "ContractTermMonths": null,
+    "Notes": "New Zealand based client 6",
+    "AccountDetail": {
+      "AccountName": "Account NZ6",
+      "AccountEmail": "account6@example.nz",
+      "EmailBillTo": "billing6@example.nz",
+      "AccountPhone": "7831641",
+      "AccountManager": "Manager NZ6"
+    },
+    "Addresses": [
+      {
+        "Type": "Billing",
+        "Street": "6 Tech Park Road",
+        "City": "Auckland",
+        "State": "NZ",
+        "Zip": "10005",
+        "Country": "New Zealand"
+      },
+      {
+        "Type": "Shipping",
+        "Street": "6 Industry Lane",
+        "City": "Wellington",
+        "State": "NZ",
+        "Zip": "20005",
+        "Country": "New Zealand"
+      }
+    ],
+    "Options": {
+      "ActiveAccount": false,
+      "MasterAccount": true,
+      "BillingCSV": true,
+      "GOG": false,
+      "EJobsClient": true
+    },
+    "Plugins": {
+      "SmartRenew": false,
+      "CustomBranding": false,
+      "SendMessage": false
+    },
+    "Integrations": {
+      "SOSEventPush": true,
+      "PVBSClient": true,
+      "VWorkClient": false,
+      "APIKey": false,
+      "SSO": false
+    },
+    "Plans": {
+      "RoadRedPlan": "MIDI",
+      "IoTPlan": "OMNI",
+      "SoftwarePlan": "OMNI",
+      "AssignPPToAllAULS": true,
+      "RolloverAgreement": true,
+      "IsNonBillingAccount": false
+    }
+  },
+  {
+    "CompanyName": "NZ Tech Solutions 7",
+    "TradingName": "NZTrade7",
+    "Contact": "Contact NZ7",
+    "Phone": "8753308",
+    "Mobile": "3504837",
+    "Connections": 0,
+    "Email": "nzclient7@example.nz",
+    "StartDate": "2024-05-27T00:00:00Z",
+    "ContractTermMonths": 12,
+    "Notes": "New Zealand based client 7",
+    "AccountDetail": {
+      "AccountName": "Account NZ7",
+      "AccountEmail": "account7@example.nz",
+      "EmailBillTo": "billing7@example.nz",
+      "AccountPhone": "6409388",
+      "AccountManager": "Manager NZ7"
+    },
+    "Addresses": [
+      {
+        "Type": "Billing",
+        "Street": "7 Tech Park Road",
+        "City": "Auckland",
+        "State": "NZ",
+        "Zip": "10006",
+        "Country": "New Zealand"
+      },
+      {
+        "Type": "Shipping",
+        "Street": "7 Industry Lane",
+        "City": "Wellington",
+        "State": "NZ",
+        "Zip": "20006",
+        "Country": "New Zealand"
+      }
+    ],
+    "Options": {
+      "ActiveAccount": true,
+      "MasterAccount": true,
+      "BillingCSV": true,
+      "GOG": false,
+      "EJobsClient": true
+    },
+    "Plugins": {
+      "SmartRenew": false,
+      "CustomBranding": false,
+      "SendMessage": true
+    },
+    "Integrations": {
+      "SOSEventPush": true,
+      "PVBSClient": false,
+      "VWorkClient": true,
+      "APIKey": false,
+      "SSO": true
+    },
+    "Plans": {
+      "RoadRedPlan": "LOCI",
+      "IoTPlan": "ASSIST",
+      "SoftwarePlan": "MIDI",
+      "AssignPPToAllAULS": true,
+      "RolloverAgreement": false,
+      "IsNonBillingAccount": false
+    }
+  },
+  {
+    "CompanyName": "NZ Tech Solutions 8",
+    "TradingName": "NZTrade8",
+    "Contact": "Contact NZ8",
+    "Phone": "9122572",
+    "Mobile": "3167052",
+    "Connections": 0,
+    "Email": "nzclient8@example.nz",
+    "StartDate": "2024-09-17T00:00:00Z",
+    "ContractTermMonths": 24,
+    "Notes": "New Zealand based client 8",
+    "AccountDetail": {
+      "AccountName": "Account NZ8",
+      "AccountEmail": "account8@example.nz",
+      "EmailBillTo": "billing8@example.nz",
+      "AccountPhone": "5185164",
+      "AccountManager": "Manager NZ8"
+    },
+    "Addresses": [
+      {
+        "Type": "Billing",
+        "Street": "8 Tech Park Road",
+        "City": "Auckland",
+        "State": "NZ",
+        "Zip": "10007",
+        "Country": "New Zealand"
+      },
+      {
+        "Type": "Shipping",
+        "Street": "8 Industry Lane",
+        "City": "Wellington",
+        "State": "NZ",
+        "Zip": "20007",
+        "Country": "New Zealand"
+      }
+    ],
+    "Options": {
+      "ActiveAccount": false,
+      "MasterAccount": true,
+      "BillingCSV": true,
+      "GOG": true,
+      "EJobsClient": false
+    },
+    "Plugins": {
+      "SmartRenew": true,
+      "CustomBranding": true,
+      "SendMessage": false
+    },
+    "Integrations": {
+      "SOSEventPush": true,
+      "PVBSClient": false,
+      "VWorkClient": false,
+      "APIKey": false,
+      "SSO": false
+    },
+    "Plans": {
+      "RoadRedPlan": "OMNI",
+      "IoTPlan": "VISI",
+      "SoftwarePlan": "MIDI",
+      "AssignPPToAllAULS": true,
+      "RolloverAgreement": true,
+      "IsNonBillingAccount": false
+    }
+  },
+  {
+    "CompanyName": "NZ Tech Solutions 9",
+    "TradingName": "NZTrade9",
+    "Contact": "Contact NZ9",
+    "Phone": "9629272",
+    "Mobile": "2547606",
+    "Connections": 0,
+    "Email": "nzclient9@example.nz",
+    "StartDate": "2024-01-28T00:00:00Z",
+    "ContractTermMonths": 36,
+    "Notes": "New Zealand based client 9",
+    "AccountDetail": {
+      "AccountName": "Account NZ9",
+      "AccountEmail": "account9@example.nz",
+      "EmailBillTo": "billing9@example.nz",
+      "AccountPhone": "2485019",
+      "AccountManager": "Manager NZ9"
+    },
+    "Addresses": [
+      {
+        "Type": "Billing",
+        "Street": "9 Tech Park Road",
+        "City": "Auckland",
+        "State": "NZ",
+        "Zip": "10008",
+        "Country": "New Zealand"
+      },
+      {
+        "Type": "Shipping",
+        "Street": "9 Industry Lane",
+        "City": "Wellington",
+        "State": "NZ",
+        "Zip": "20008",
+        "Country": "New Zealand"
+      }
+    ],
+    "Options": {
+      "ActiveAccount": true,
+      "MasterAccount": false,
+      "BillingCSV": false,
+      "GOG": true,
+      "EJobsClient": true
+    },
+    "Plugins": {
+      "SmartRenew": false,
+      "CustomBranding": true,
+      "SendMessage": true
+    },
+    "Integrations": {
+      "SOSEventPush": true,
+      "PVBSClient": false,
+      "VWorkClient": false,
+      "APIKey": true,
+      "SSO": true
+    },
+    "Plans": {
+      "RoadRedPlan": "LOCI",
+      "IoTPlan": "ASSIST",
+      "SoftwarePlan": "OMNI",
+      "AssignPPToAllAULS": false,
+      "RolloverAgreement": true,
+      "IsNonBillingAccount": false
+    }
+  },
+  {
+    "CompanyName": "NZ Tech Solutions 10",
+    "TradingName": "NZTrade10",
+    "Contact": "Contact NZ10",
+    "Phone": "5877185",
+    "Mobile": "8361662",
+    "Connections": 0,
+    "Email": "nzclient10@example.nz",
+    "StartDate": "2024-07-27T00:00:00Z",
+    "ContractTermMonths": 24,
+    "Notes": "New Zealand based client 10",
+    "AccountDetail": {
+      "AccountName": "Account NZ10",
+      "AccountEmail": "account10@example.nz",
+      "EmailBillTo": "billing10@example.nz",
+      "AccountPhone": "6906170",
+      "AccountManager": "Manager NZ10"
+    },
+    "Addresses": [
+      {
+        "Type": "Billing",
+        "Street": "10 Tech Park Road",
+        "City": "Auckland",
+        "State": "NZ",
+        "Zip": "10009",
+        "Country": "New Zealand"
+      },
+      {
+        "Type": "Shipping",
+        "Street": "10 Industry Lane",
+        "City": "Wellington",
+        "State": "NZ",
+        "Zip": "20009",
+        "Country": "New Zealand"
+      }
+    ],
+    "Options": {
+      "ActiveAccount": true,
+      "MasterAccount": true,
+      "BillingCSV": true,
+      "GOG": false,
+      "EJobsClient": false
+    },
+    "Plugins": {
+      "SmartRenew": true,
+      "CustomBranding": true,
+      "SendMessage": false
+    },
+    "Integrations": {
+      "SOSEventPush": false,
+      "PVBSClient": false,
+      "VWorkClient": true,
+      "APIKey": false,
+      "SSO": false
+    },
+    "Plans": {
+      "RoadRedPlan": "ASSIST",
+      "IoTPlan": "ASSIST",
+      "SoftwarePlan": "LOCI",
+      "AssignPPToAllAULS": false,
+      "RolloverAgreement": true,
+      "IsNonBillingAccount": true
+    }
+  }
+]

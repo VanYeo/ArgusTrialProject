@@ -9,6 +9,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,11 +57,16 @@ namespace ArgusTrialTest
                 Password = "testing123"
             };
 
-            var expectedToken = "fake-jwt-token";
+            var loginResponseDto = new LoginResponseDto
+            {
+                Email = "admin@gmail.com",
+                JwtToken = "fake-jwt-token"
+            };
+            
 
             _mockLoginService
                 .Setup(service => service.LoginAsync(loginRequest.Email, loginRequest.Password))
-                .ReturnsAsync((true, expectedToken));
+                .ReturnsAsync((loginResponseDto));
 
             // Act
             var result = await _controller.Login(loginRequest);
@@ -72,8 +78,10 @@ namespace ArgusTrialTest
             Assert.That(okResult, Is.Not.Null);
 
             // Extract the token from the anonymous object
-            var tokenProp = okResult.Value?.GetType().GetProperty("token")?.GetValue(okResult.Value, null);
-            Assert.That(tokenProp, Is.EqualTo(expectedToken));
+            var value = okResult?.Value as LoginResponseDto;
+            Assert.That(value, Is.Not.Null);
+            Assert.That(value.Email, Is.EqualTo(loginResponseDto.Email));
+            Assert.That(value.JwtToken, Is.EqualTo(loginResponseDto.JwtToken));
         }
 
 
@@ -86,8 +94,10 @@ namespace ArgusTrialTest
                 Password = "wrongpassword"
             };
 
-            _mockUserManager.Setup(m => m.FindByEmailAsync(request.Email))
-                .ReturnsAsync((IdentityUser)null!);
+            _mockLoginService
+                .Setup(service => service.LoginAsync(request.Email, request.Password))
+                .ReturnsAsync((LoginResponseDto)null!);
+
 
             var result = await _controller.Login(request);
 

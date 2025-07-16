@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class initialisedb : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,6 +51,30 @@ namespace backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    ClientID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    AccountNumber = table.Column<string>(type: "text", nullable: true),
+                    CompanyName = table.Column<string>(type: "text", nullable: false),
+                    TradingName = table.Column<string>(type: "text", nullable: true),
+                    Contact = table.Column<string>(type: "text", nullable: true),
+                    Phone = table.Column<string>(type: "text", nullable: true),
+                    Mobile = table.Column<string>(type: "text", nullable: true),
+                    Connections = table.Column<int>(type: "integer", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ContractTermMonths = table.Column<int>(type: "integer", nullable: true),
+                    ContractType = table.Column<string>(type: "text", nullable: true),
+                    Notes = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.ClientID);
                 });
 
             migrationBuilder.CreateTable(
@@ -159,14 +183,153 @@ namespace backend.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "AccountDetail",
+                columns: table => new
+                {
+                    ClientID = table.Column<int>(type: "integer", nullable: false),
+                    AccountName = table.Column<string>(type: "text", nullable: true),
+                    AccountEmail = table.Column<string>(type: "text", nullable: true),
+                    EmailBillTo = table.Column<string>(type: "text", nullable: true),
+                    AccountPhone = table.Column<string>(type: "text", nullable: true),
+                    AccountManager = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountDetail", x => x.ClientID);
+                    table.ForeignKey(
+                        name: "FK_AccountDetail_Clients_ClientID",
+                        column: x => x.ClientID,
+                        principalTable: "Clients",
+                        principalColumn: "ClientID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Address",
+                columns: table => new
+                {
+                    AddressID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ClientID = table.Column<int>(type: "integer", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    Street = table.Column<string>(type: "text", nullable: true),
+                    City = table.Column<string>(type: "text", nullable: true),
+                    State = table.Column<string>(type: "text", nullable: true),
+                    Zip = table.Column<string>(type: "text", nullable: true),
+                    Country = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Address", x => x.AddressID);
+                    table.ForeignKey(
+                        name: "FK_Address_Clients_ClientID",
+                        column: x => x.ClientID,
+                        principalTable: "Clients",
+                        principalColumn: "ClientID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientIntegrations",
+                columns: table => new
+                {
+                    ClientID = table.Column<int>(type: "integer", nullable: false),
+                    SOSEventPush = table.Column<bool>(type: "boolean", nullable: false),
+                    PVBSClient = table.Column<bool>(type: "boolean", nullable: false),
+                    VWorkClient = table.Column<bool>(type: "boolean", nullable: false),
+                    APIKey = table.Column<bool>(type: "boolean", nullable: false),
+                    SSO = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientIntegrations", x => x.ClientID);
+                    table.ForeignKey(
+                        name: "FK_ClientIntegrations_Clients_ClientID",
+                        column: x => x.ClientID,
+                        principalTable: "Clients",
+                        principalColumn: "ClientID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientOptions",
+                columns: table => new
+                {
+                    ClientID = table.Column<int>(type: "integer", nullable: false),
+                    ActiveAccount = table.Column<bool>(type: "boolean", nullable: false),
+                    MasterAccount = table.Column<bool>(type: "boolean", nullable: false),
+                    BillingCSV = table.Column<bool>(type: "boolean", nullable: false),
+                    GOG = table.Column<bool>(type: "boolean", nullable: false),
+                    EJobsClient = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientOptions", x => x.ClientID);
+                    table.ForeignKey(
+                        name: "FK_ClientOptions_Clients_ClientID",
+                        column: x => x.ClientID,
+                        principalTable: "Clients",
+                        principalColumn: "ClientID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientPlugins",
+                columns: table => new
+                {
+                    ClientID = table.Column<int>(type: "integer", nullable: false),
+                    SmartRenew = table.Column<bool>(type: "boolean", nullable: false),
+                    CustomBranding = table.Column<bool>(type: "boolean", nullable: false),
+                    SendMessage = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientPlugins", x => x.ClientID);
+                    table.ForeignKey(
+                        name: "FK_ClientPlugins_Clients_ClientID",
+                        column: x => x.ClientID,
+                        principalTable: "Clients",
+                        principalColumn: "ClientID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DefaultPlans",
+                columns: table => new
+                {
+                    ClientID = table.Column<int>(type: "integer", nullable: false),
+                    RoadRedPlan = table.Column<string>(type: "text", nullable: true),
+                    IoTPlan = table.Column<string>(type: "text", nullable: true),
+                    SoftwarePlan = table.Column<string>(type: "text", nullable: true),
+                    AssignPPToAllAULS = table.Column<bool>(type: "boolean", nullable: false),
+                    RolloverAgreement = table.Column<bool>(type: "boolean", nullable: false),
+                    IsNonBillingAccount = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DefaultPlans", x => x.ClientID);
+                    table.ForeignKey(
+                        name: "FK_DefaultPlans_Clients_ClientID",
+                        column: x => x.ClientID,
+                        principalTable: "Clients",
+                        principalColumn: "ClientID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "59a1768a-43a8-43de-9040-2fe85b1b8845", "admin@gmail.com", false, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEAA7Hq/lyocfx5I+4l9ppnRNXV8mbohnE57QBTGuxYQ2zmiL3f91LL5CC5io0dR/lg==", null, false, "2048f097-0966-45af-b289-daf907ae0455", false, "admin@gmail.com" },
-                    { "2", 0, "72f0e97c-1b47-49b2-bb52-416a44841585", "user@gmail.com", false, false, null, "USER@GMAIL.COM", "USER@GMAIL.COM", "AQAAAAIAAYagAAAAEONZpkxtXpw4JybIwLQZ0n5ldEewOKkMABaa/VXSGrqbKaBCrEWvFJreM1XnI+Egdw==", null, false, "ff044695-5cfc-4b99-8e09-6839f9b80e69", false, "user@gmail.com" }
+                    { "1", 0, "a8763ca7-95ab-4872-a135-a167aede744c", "admin@gmail.com", false, false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", null, null, false, "a4c04dbb-7efa-462a-8a30-ace62710f6a3", false, "admin@gmail.com" },
+                    { "2", 0, "3626a82b-256a-464c-8672-885b1cc31531", "user@gmail.com", false, false, null, "USER@GMAIL.COM", "USER@GMAIL.COM", null, null, false, "a7a7d2c3-a85e-43f6-8c7d-7a901983f00e", false, "user@gmail.com" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Address_ClientID",
+                table: "Address",
+                column: "ClientID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -204,11 +367,23 @@ namespace backend.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clients_Email",
+                table: "Clients",
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AccountDetail");
+
+            migrationBuilder.DropTable(
+                name: "Address");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -225,10 +400,25 @@ namespace backend.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ClientIntegrations");
+
+            migrationBuilder.DropTable(
+                name: "ClientOptions");
+
+            migrationBuilder.DropTable(
+                name: "ClientPlugins");
+
+            migrationBuilder.DropTable(
+                name: "DefaultPlans");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
         }
     }
 }

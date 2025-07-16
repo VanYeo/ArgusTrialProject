@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ForgotPasswordComponent } from './forgot-password.component';
+import { SidebarModule } from "../../shared/sidebar/sidebar-module";
 
 
 
@@ -9,7 +10,8 @@ import { ForgotPasswordComponent } from './forgot-password.component';
     ForgotPasswordComponent
   ],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+    SidebarModule
+]
 })
 export class ForgotPasswordModule { }

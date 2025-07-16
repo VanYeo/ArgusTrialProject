@@ -1,17 +1,22 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using backend.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 namespace backend.Data
 {
-    public class AuthDbContext : IdentityDbContext
+    public class ClientsDbContext : IdentityDbContext<IdentityUser>
     {
-        public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
+        public DbSet<Client> Clients { get; set; }
+        public ClientsDbContext(DbContextOptions<ClientsDbContext> options) : base(options)
         {
+           
+
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             var hasher = new PasswordHasher<IdentityUser>();
@@ -37,25 +42,8 @@ namespace backend.Data
             };
 
             user2.PasswordHash = hasher.HashPassword(user2, "user123");
-
             builder.Entity<IdentityUser>().HasData(user1, user2);
 
         }
     }
-
-    public class AuthDbContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
-    {
-        public AuthDbContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<AuthDbContext>();
-            var connectionString = Environment.GetEnvironmentVariable("AUTH_DB_CONNECTION_STRING");
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                throw new InvalidOperationException("Environment variable AUTH_DB_CONNECTION_STRING not set.");
-            }
-            optionsBuilder.UseNpgsql(connectionString);
-
-            return new AuthDbContext(optionsBuilder.Options);
-        }
     }
-}

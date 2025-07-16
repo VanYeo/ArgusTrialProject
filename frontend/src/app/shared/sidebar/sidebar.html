@@ -1,0 +1,167 @@
+<div class="sidebar-wrapper">
+  <!-- Logo Section -->
+  <div class="logo-wrapper" [class.centered]="!opened">
+    <img *ngIf="opened" src="/icons/argus-logo.svg" alt="Logo" class="logo" />
+    <img
+      *ngIf="!opened"
+      src="/icons/argus-logo-only.svg"
+      alt="Logo"
+      class="logo-icon"
+    />
+  </div>
+
+  <div class="toggle-wrapper" [class.collapsed]="!opened">
+    <button
+      (click)="onToggleSidebar()"
+      class="toggle-btn"
+      aria-label="Toggle sidenav"
+      [attr.title]="opened ? 'Collapse sidebar' : 'Expand sidebar'"
+    >
+      <img src="/icons/toggle.svg" alt="Toggle Menu" />
+    </button>
+  </div>
+
+  <!-- Navigation Content -->
+  <nav class="sidenav-content" [class.collapsed]="!opened">
+    <a
+      class="nav-item"
+      routerLink="/clients"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [attr.data-bs-toggle]="!opened ? 'tooltip' : undefined"
+      data-bs-placement="right"
+      [attr.title]="!opened ? 'Clients' : undefined"
+    >
+      <img
+        src="/icons/sidenav-icons/client-icon.svg"
+        alt="Clients"
+        class="nav-icon"
+      />
+      <span *ngIf="opened" class="nav-label">Clients</span>
+    </a>
+    <a
+      class="nav-item"
+      routerLink="/assets"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [attr.data-bs-toggle]="!opened ? 'tooltip' : undefined"
+      data-bs-placement="right"
+      [attr.title]="!opened ? 'Assets' : undefined"
+    >
+      <img
+        src="/icons/sidenav-icons/assets-icon.svg"
+        alt="Assets"
+        class="nav-icon"
+      />
+      <span *ngIf="opened" class="nav-label">Assets</span>
+    </a>
+    <a
+      class="nav-item"
+      routerLink="/users"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [attr.data-bs-toggle]="!opened ? 'tooltip' : undefined"
+      data-bs-placement="right"
+      [attr.title]="!opened ? 'Users' : undefined"
+    >
+      <img
+        src="/icons/sidenav-icons/users-icon.svg"
+        alt="Users"
+        class="nav-icon"
+      />
+      <span *ngIf="opened" class="nav-label">Users</span>
+    </a>
+    <a
+      class="nav-item"
+      routerLink="/AVLs"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [attr.data-bs-toggle]="!opened ? 'tooltip' : undefined"
+      data-bs-placement="right"
+      [attr.title]="!opened ? 'Unassigned AVLs' : undefined"
+    >
+      <img
+        src="/icons/sidenav-icons/unassigned-AVLs-icon.svg"
+        alt="Unassigned AVLs"
+        class="nav-icon"
+      />
+      <span *ngIf="opened" class="nav-label">Unassigned AVLs</span>
+    </a>
+    <a
+      class="nav-item"
+      routerLink="/pricing-plan"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [attr.data-bs-toggle]="!opened ? 'tooltip' : undefined"
+      data-bs-placement="right"
+      [attr.title]="!opened ? 'Pricing Plan' : undefined"
+    >
+      <img
+        src="/icons/sidenav-icons/pricing-plan-icon.svg"
+        alt="Pricing Plan"
+        class="nav-icon"
+      />
+      <span *ngIf="opened" class="nav-label">Pricing Plan</span>
+    </a>
+
+    <!-- Tools Dropdown -->
+    <div class="nav-dropdown" [class.collapsed]="!opened">
+      <button
+        type="button"
+        class="nav-item tooltip-parent"
+        [class.dropdown-active]="toolsDropdownOpen"
+        (click)="toggleToolsDropdown()"
+        [attr.data-bs-toggle]="!opened ? 'tooltip' : undefined"
+        data-bs-placement="right"
+        [attr.title]="!opened ? 'Tools' : undefined"
+      >
+        <img
+          src="/icons/sidenav-icons/tools-icon.svg"
+          alt="Tools"
+          class="nav-icon"
+        />
+        <span *ngIf="opened" class="nav-label">Tools</span>
+        <img
+          *ngIf="opened"
+          class="dropdown-arrow"
+          [class.rotated]="toolsDropdownOpen"
+          src="/icons/sidenav-icons/down-arrow.svg"
+          width="12"
+          height="12"
+          alt="Dropdown Arrow"
+        />
+      </button>
+
+      <div
+        class="dropdown-menu"
+        [class.show]="toolsDropdownOpen && opened"
+        [class.collapsed-menu]="!opened && toolsDropdownOpen"
+      >
+        <a
+          class="dropdown-item"
+          routerLink="/tool-1"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <span>Tool 1</span>
+        </a>
+        <a
+          class="dropdown-item"
+          routerLink="/tool-2"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <span>Tool 2</span>
+        </a>
+        <a
+          class="dropdown-item"
+          routerLink="/tool-3"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <span>Tool 3</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</div>

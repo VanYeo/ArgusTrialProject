@@ -1,4 +1,5 @@
-﻿using backend.Repositories;
+﻿using backend.DTOs.Login;
+using backend.Repositories;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.Services
@@ -8,23 +9,27 @@ namespace backend.Services
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ITokenRepository _tokenRepository;
 
-        public LoginService(UserManager<IdentityUser> userManager, ITokenRepository tokenRepository)
+        public LoginService(UserManager<IdentityUser> userManager, ITokenRepository tokenRepository )
         {
             _userManager = userManager;
             _tokenRepository = tokenRepository;
         }
 
-        public async Task<(bool IsAuthenticated, string? Token)> LoginAsync(string email, string password)
+        // LoginService.cs
+        public async Task<LoginResponseDto?> LoginAsync(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user != null && await _userManager.CheckPasswordAsync(user, password))
             {
                 var token = _tokenRepository.CreateJWTToken(user);
-                return (true, token);
+                return new LoginResponseDto
+                {
+                    Email = email,
+                    JwtToken = token
+                };
             }
 
-            return (false, null);
-
+            return null;
         }
     }
 }

@@ -1,0 +1,35 @@
+.sidenav-container {
+  height: 100vh;
+  width: 100vw;
+}
+
+mat-sidenav-container.sidenav-container {
+  overflow: hidden;
+}
+
+.custom-sidenav {
+  background-color: rgba(35, 31, 32, 1);
+  color: white;
+  transition: width 0.3s;
+  overflow: hidden;
+  z-index: 1000;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  width: 280px;
+  min-width: 80px !important;
+}
+
+.custom-sidenav.collapsed {
+  width: 80px !important;
+  min-width: 80px !important;
+  max-width: 80px !important;
+}
+
+mat-sidenav-content.main-content {
+  background-color: rgba(250, 250, 249, 1);
+  transition: margin-left 0.3s;
+  margin-left: 280px !important;
+}
+
+.sidebar-collapsed mat-sidenav-content.main-content {
+  margin-left: 80px !important;
+}

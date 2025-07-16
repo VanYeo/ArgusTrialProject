@@ -8,6 +8,10 @@ import { LoginModule } from './features/login/login.module';
 import { ForgotPasswordModule } from './features/forgot-password/forgot-password-module';
 import { SidebarModule } from './shared/sidebar/sidebar-module';
 import { NavbarModule } from './shared/navbar/navbar-module';
+import { DashboardModule } from './features/dashboard/dashboard-module';
+import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -20,6 +24,12 @@ import { NavbarModule } from './shared/navbar/navbar-module';
     FormsModule,
     LoginModule,
     ForgotPasswordModule,
+    SidebarModule,
+    DashboardModule,
+    RouterModule,
+    BrowserAnimationsModule,
+    NavbarModule,
+    MatSidenavModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners()

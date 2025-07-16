@@ -1,0 +1,120 @@
+nav {
+background-color: rgba(250, 250, 249, 1);
+  border-bottom: 0.88px solid rgba(206, 205, 205, 1);
+  padding: 0.5rem 2.5rem;
+}
+
+.input-icon-wrapper {
+  border-radius: 8px;
+  border: 1px solid rgba(208, 203, 201, 1);
+  padding: 0.5rem 0.75rem;
+  background-color: rgba(255, 255, 255, 1);
+  gap: 0.25rem;
+
+  input{
+    border: 0;
+    outline: none;
+  }
+}
+
+p {
+  font-family: "AmpleSoft Regular", sans-serif;
+  font-size: 14px;
+  margin: 0;
+  color: rgba(108, 106, 106, 1);
+}
+
+.nav-icons {
+  background-color: rgba(250, 250, 249, 1);
+  border: 0.1px transparent;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+
+  &:focus,
+  &:active {
+    background-color: rgba(109, 0, 32, 1);
+  }
+
+  &:hover {
+    background-color: rgba(239, 227, 230, 1);
+  }
+
+  &:focus img{
+    filter: brightness(0) invert(1);
+  }
+}
+
+.profile {
+  background-color: transparent;
+  border: 0;
+}
+
+.dropdown {
+  z-index: 1000;
+
+  .dropdown-menu {
+    text-align: left;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: rgba(251, 251, 251, 1);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+    position: absolute;
+    right: 0;
+    box-sizing: border-box;
+    padding: 0;
+
+    //tooltip triangle
+    &::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 10px solid rgba(251, 251, 251, 1);
+      z-index: 1001;
+    }
+
+    .profile-box {
+      background-color: rgba(245, 244, 244, 1);
+      margin: 0.5rem;
+      width: calc(100% - 1rem);
+      padding: 1rem;
+      overflow-wrap: break-word;
+      border-radius: 8px;
+
+      .email {
+        color: rgba(108, 106, 106, 1);
+        font-size: 14px;
+        padding: 0 0.5rem;
+      }
+    }
+
+    button {
+      background-color: transparent;
+      border: 0;
+      padding: 1rem;
+      margin-left: 0.25rem;
+    }
+  }
+}
+
+.name {
+  font-size: 18px;
+  padding-bottom: 0;
+}
+
+.breadcrumb {
+  color: rgba(157, 155, 156, 1);
+  margin: 0;
+  font-size: 18px;
+}
+
+.person {
+  width: 44px;
+  height: 44px;
+}

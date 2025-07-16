@@ -1,0 +1,52 @@
+<div class="search-container">
+  <div class="search-input-wrapper d-flex align-items-center" #searchWrapper>
+    <img src="/icons/navbar/search.svg" alt="search" class="ms-2" />
+    <input
+      type="text"
+      class="search-input"
+      [(ngModel)]="searchKeyword"
+      (input)="onSearchInput()"
+      placeholder="Search"
+      #searchInput
+    />
+    <button
+      class="dropdown-toggle-search"
+      (click)="toggleDropdown()"
+      [class.active]="isDropdownOpen"
+      type="button"
+    >
+      <img src="icons/down-arrow-grey.svg" alt="" />
+    </button>
+    <div *ngIf="this.searchKeyword!=''" class="d-flex align-items-center">
+      <span
+        class="badge rounded-circle text-center"
+      >{{ checkedFilterCount }}</span>
+      <button
+        type="button"
+        class="btn border-0 bg-transparent py-0"
+        (click)="cancelInput()"
+      >
+        <img src="/icons/cancel_input.svg" alt="cross" />
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="dropdown-menu"
+    [class.show]="isDropdownOpen"
+    [style.width.px]="dropdownWidth"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="filter-list">
+      <label class="filter-item custom-checkbox" *ngFor="let filter of filters">
+        <input
+          type="checkbox"
+          [(ngModel)]="filter.checked"
+          (change)="onFilterChange()"
+        />
+        <span class="checkmark"></span>
+        {{ filter.label }}
+      </label>
+    </div>
+  </div>
+</div>

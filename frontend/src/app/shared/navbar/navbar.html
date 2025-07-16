@@ -1,0 +1,57 @@
+<nav>
+  <div class="d-flex flex-row justify-content-between align-items-center">
+    <div class="breadcrumb gap-2">
+      Home
+      <ng-container *ngFor="let segment of pathSegments; let i = index">
+        &gt;
+        <span>{{ segment }}</span>
+      </ng-container>
+    </div>
+
+    <div class="d-flex flex-row align-items-center">
+      <div class="input-icon-wrapper d-flex align-items-center">
+        <img src="/icons/navbar/search.svg" alt="search" class="input-icon" />
+        <input type="text" placeholder="Search" />
+      </div>
+      <button class="nav-icons ms-2">
+        <img src="/icons/navbar/settings.svg" alt="" />
+      </button>
+      <button class="nav-icons ms-2">
+        <img src="/icons/navbar/information.svg" alt="" />
+      </button>
+      <div class="dropdown" #dropdownRef>
+        <button
+          type="button"
+          (click)="toggleDropdown($event)"
+          class="profile d-flex flex-row align-items-center btn"
+        >
+          <img src="/icons/navbar/person.svg" class="person" alt="" />
+          <div class="d-flex flex-column align-items-start">
+            <div class="name">{{userName}}</div>
+            <p>Admin</p>
+          </div>
+        </button>
+        <div
+          *ngIf="isOpened"
+          class="dropdown-menu d-flex flex-column align-items-start"
+        >
+          <div class="profile-box d-flex flex-column align-items-center">
+            <div><img src="/icons/navbar/person.svg" alt="" /></div>
+            <div>{{userName}}</div>
+            <div class="email">{{email}}</div>
+          </div>
+          <button>
+            <img
+              src="/icons/navbar/mini-profile.svg"
+              class="me-2"
+              alt=""
+            />Profile
+          </button>
+          <button class="mb-0">
+            <img src="/icons/navbar/sign-out.svg" class="me-2" alt="" />Sign out
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
