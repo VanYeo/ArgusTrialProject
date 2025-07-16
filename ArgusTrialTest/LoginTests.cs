@@ -1,7 +1,7 @@
 ﻿using backend.Controllers;
 using backend.DTOs.Login;
-using backend.Repositories;
-using backend.Services;
+using backend.Services.Login;
+using backend.Services.Token;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -18,7 +18,7 @@ namespace ArgusTrialTest
     public class LoginControllerTests
     {
         private Mock<UserManager<IdentityUser>> _mockUserManager;
-        private Mock<ITokenRepository> _mockTokenRepo;
+        private Mock<ITokenService> _mockTokenRepo;
         private Mock<ILoginService> _mockLoginService;
         private LoginController _controller;
 
@@ -30,7 +30,7 @@ namespace ArgusTrialTest
                 userStoreMock.Object, null, null, null, null, null, null, null, null
             );
 
-            _mockTokenRepo = new Mock<ITokenRepository>();
+            _mockTokenRepo = new Mock<ITokenService>();
 
             _mockLoginService = new Mock<ILoginService>();
             _controller = new LoginController(_mockLoginService.Object);

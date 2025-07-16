@@ -1,4 +1,4 @@
-﻿namespace backend.Services
+﻿namespace backend.Services.Password
 {
     public interface IPasswordService
     {

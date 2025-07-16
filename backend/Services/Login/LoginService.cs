@@ -1,21 +1,19 @@
 ﻿using backend.DTOs.Login;
-using backend.Repositories;
+using backend.Services.Token;
 using Microsoft.AspNetCore.Identity;
 
-namespace backend.Services
+namespace backend.Services.Login
 {
     public class LoginService : ILoginService
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ITokenRepository _tokenRepository;
+        private readonly ITokenService _tokenRepository;
 
-        public LoginService(UserManager<IdentityUser> userManager, ITokenRepository tokenRepository )
+        public LoginService(UserManager<IdentityUser> userManager, ITokenService tokenRepository )
         {
             _userManager = userManager;
             _tokenRepository = tokenRepository;
         }
-
-        // LoginService.cs
         public async Task<LoginResponseDto?> LoginAsync(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);

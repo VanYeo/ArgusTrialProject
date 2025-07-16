@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace backend.Services
+namespace backend.Services.Password
 {
     public class PasswordService : IPasswordService
     {

@@ -1,6 +1,5 @@
 ﻿using backend.DTOs.Login;
-using backend.Repositories;
-using backend.Services;
+using backend.Services.Login;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;

@@ -2,13 +2,13 @@
 using backend.DTOs.Dashboard;
 using backend.Entities;
 using backend.Helpers;
-using backend.Services;
+using backend.Services.Password;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 
-namespace backend.Repositories
+namespace backend.Repositories.Clients
 {
     public class ClientsRepository(ClientsDbContext context, IPasswordService passwordService) : IClientsRepository
     {
@@ -38,11 +38,11 @@ namespace backend.Repositories
 
         }
 
-        public async Task<PaginatorDto<SearchResponseDto>> GetClientsAsync(SearchRequestDto request)
+        public IQueryable<Client> GetFilteredClientsQueryable(SearchRequestDto request)
         {
             var query = context.Clients.AsQueryable();
 
-            // Handle Active/Inactive filter
+            // Active/Inactive Filter
             if (request.SelectedFilters.Contains("active", StringComparer.OrdinalIgnoreCase) &&
                 !request.SelectedFilters.Contains("inactive", StringComparer.OrdinalIgnoreCase))
             {
@@ -85,17 +85,7 @@ namespace backend.Repositories
                         {
                             if (actualField.Equals("ContractEnd", StringComparison.OrdinalIgnoreCase))
                             {
-                                var contractTermProperty = typeof(Client).GetProperty("ContractTerm");
-                                if (contractTermProperty?.PropertyType == typeof(int) || contractTermProperty?.PropertyType == typeof(int?))
-                                {
-                                    filters.Add("StartDate.AddMonths(ContractTerm ?? 0).Date == @{paramIndex}");
-                                }
-                                else if (contractTermProperty?.PropertyType == typeof(string))
-                                {
-                                    // Handle contract term as string (e.g., "Open") – use fallback logic
-                                    filters.Add("StartDate == @{paramIndex}");
-                                }
-
+                                filters.Add("StartDate.AddMonths(ContractTerm ?? 0).Date == @{paramIndex}");
                                 values.Add(dateValue.Date);
                             }
                             else
@@ -105,7 +95,7 @@ namespace backend.Repositories
                             }
                         }
                     }
-                    else // string
+                    else
                     {
                         filters.Add($"{actualField} != null && {actualField}.ToLower().Contains(@{paramIndex})");
                         values.Add(request.Keyword.ToLower());
@@ -118,51 +108,8 @@ namespace backend.Repositories
                     query = query.Where(whereClause, values.ToArray());
                 }
             }
-
-            // Sorting
-            if (!string.IsNullOrWhiteSpace(request.SortBy))
-            {
-                var sortField = request.SortBy;
-                var sortOrder = string.Equals(request.SortDirection, "desc", StringComparison.OrdinalIgnoreCase)
-                    ? "descending"
-                    : "ascending";
-
-                query = query.OrderBy($"{sortField} {sortOrder}");
-            }
-            else
-            {
-                query = query.OrderBy("ClientID");
-            }
-
-            // Projection
-            var projected = query.Select(c => new SearchResponseDto
-            {
-                ClientID = c.ClientID,
-                CompanyName = c.CompanyName,
-                TradingName = c.TradingName,
-                Contact = c.Contact,
-                Phone = c.Phone,
-                Mobile = c.Mobile,
-                LoginEmail = c.LoginEmail,
-                Connections = c.Connections,
-                StartDate = c.StartDate,
-                ContractTerm = c.ContractTerm,
-                ActiveAccount = c.ActiveAccount,
-                CustomValue = c.CustomValue
-            });
-
-            var pagedList = await PaginatedList<SearchResponseDto>.CreateAsync(projected, request.PageIndex, request.PageSize);
-
-            return new PaginatorDto<SearchResponseDto>
-            {
-                Items = pagedList,
-                PageIndex = pagedList.PageIndex,
-                PageSize = pagedList.PageSize,
-                TotalPages = pagedList.TotalPages,
-                TotalCount = pagedList.TotalCount,
-                HasPreviousPage = pagedList.HasPreviousPage,
-                HasNextPage = pagedList.HasNextPage
-            };
+            query = query.OrderBy(c => c.ClientID);
+            return query;
         }
 
         public async Task<bool> SaveChangesAsync()
@@ -200,5 +147,11 @@ namespace backend.Repositories
             var maxId = await context.Clients.MaxAsync(c => (int?)c.ClientID) ?? 0;
             return maxId + 1;
         }
+        public IQueryable<Client> GetClientsQueryable()
+        {
+            return context.Clients.AsQueryable();
+        }
+
+
     }
 }

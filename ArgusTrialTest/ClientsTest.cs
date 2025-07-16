@@ -1,7 +1,7 @@
 ﻿using backend.Controllers;
 using backend.DTOs.Dashboard;
 using backend.Entities;
-using backend.Repositories;
+using backend.Repositories.Clients;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;

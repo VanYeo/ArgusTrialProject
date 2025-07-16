@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { LoginService } from './login.service';
 import { TmplAstDeferredBlockLoading } from '@angular/compiler';
 import { Router } from '@angular/router';
@@ -30,6 +30,8 @@ export class LoginComponent {
     this.router.navigate(['/forgot-password']);
   }
 
+  @ViewChild('toast') toastComponent!: any;
+
   onSubmit() {
     this.assignErrorMessage();
     if (!this.disableSubmit) {
@@ -37,10 +39,18 @@ export class LoginComponent {
       this.loginService.submitLoginData(this.loginData).subscribe({
         next: (res) => {
           localStorage.setItem('authToken', res.jwtToken);
-          localStorage.setItem('email', res.email)
-          this.router.navigate(['/clients']);
-          console.log(localStorage.getItem('email'),localStorage.getItem('authToken'));
-          
+          localStorage.setItem('email', res.email);
+          this.toastComponent.showToast(
+            'Successful Login',
+            'success'
+          );
+          setTimeout(() => {
+            this.router.navigate(['/clients']);
+          }, 1000);
+          console.log(
+            localStorage.getItem('email'),
+            localStorage.getItem('authToken')
+          );
         },
         error: (err) => {
           console.error(err);

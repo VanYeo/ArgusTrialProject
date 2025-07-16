@@ -4,13 +4,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace backend.Repositories
+namespace backend.Services.Token
 {
-    public class TokenRepository : ITokenRepository
+    public class TokenService : ITokenService
     {
         private IConfiguration configuration;
 
-        public TokenRepository(IConfiguration configuration)
+        public TokenService(IConfiguration configuration)
         {
             this.configuration = configuration;
         }

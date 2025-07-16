@@ -1,18 +1,20 @@
 using backend.Data;
-using backend.Repositories;
-using backend.Services;
+using backend.Repositories.Clients;
+using backend.Services.Clients;
+using backend.Services.Login;
+using backend.Services.Password;
+using backend.Services.Token;
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using DotNetEnv;
 
 Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddCors(options =>
 {
@@ -34,12 +36,6 @@ builder.Services.AddDbContext<ClientsDbContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("ClientsConnectionString");
     options.UseNpgsql(connectionString);
 });
-
-
-builder.Services.AddScoped<ILoginService, LoginService>();
-builder.Services.AddScoped<ITokenRepository, TokenRepository>();
-
-builder.Services.AddDataProtection();
 
 builder.Services.AddIdentityCore<IdentityUser>()
     .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("ArgusTrialProject")
@@ -68,9 +64,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     });
 
+
+builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
-
+builder.Services.AddScoped<IClientsService, ClientsService>();
 
 var app = builder.Build();
 

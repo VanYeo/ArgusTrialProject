@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace backend.Repositories
+namespace backend.Services.Token
 {
-    public interface ITokenRepository
+    public interface ITokenService
     {
         string CreateJWTToken(IdentityUser user);
     }

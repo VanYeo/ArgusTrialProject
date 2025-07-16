@@ -1,36 +1,6 @@
-import { ValidatorFn, Validators } from '@angular/forms';
 
-export interface FieldConfig {
-  label: string;
-  name: string;
-  type: string;
-  validators?: ValidatorFn[];
-}
 
-export const generalFields: FieldConfig[] = [
-  { label: 'Account Number', name: 'accountNumber', type: 'text', validators: [Validators.required] },
-  { label: 'Company Name', name: 'companyName', type: 'text', validators: [Validators.required] },
-  { label: 'Phone', name: 'phone', type: 'text', validators: [Validators.required, Validators.pattern(/^\d{11}$/)]},
-  { label: 'Mobile', name: 'mobile', type: 'text', validators: [Validators.required, Validators.pattern(/^\d{11}$/)]},
-  { label: 'Contact', name: 'contact', type: 'text', validators: [Validators.required] },
-  { label: 'Trading Name', name: 'tradingName', type: 'text' }
-];
-
-export const loginFields: FieldConfig[] = [
-  { label: 'Email', name: 'email', type: 'loginEmail', validators: [Validators.required, Validators.email] },
-  { label: 'Password', name: 'password', type: 'password' }
-];
-
-export const accountFields: FieldConfig[] = [
-  { label: 'Name', name: 'name', type: 'text', validators: [Validators.required] },
-  { label: 'Email', name: 'accountEmail', type: 'email', validators: [Validators.required, Validators.email] },
-  { label: 'Email (Bill)', name: 'emailBill', type: 'email', validators: [Validators.required, Validators.email] },
-  { label: 'Phone', name: 'accountPhone', type: 'text', validators: [Validators.required, Validators.pattern(/^\d{11}$/)]},
-  { label: 'Company Name', name: 'companyName', type: 'text', validators: [Validators.required] },
-  { label: 'Account Manager', name: 'accountManager', type: 'text', validators: [Validators.required] },
-];
-
-export const deliveryFields: FieldConfig[] = [
+export const deliveryFields = [
   { label: 'Bill To', name: 'billTo', type: 'text' },
   { label: 'Ship To', name: 'shipTo', type: 'text' },
   { label: 'Street', name: 'street', type: 'text' },

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';      
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login.component';
+import { ToastModule } from '../../shared/toast/toast-module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { LoginComponent } from './login.component';
     CommonModule,          
     FormsModule,         
     ReactiveFormsModule,    
-    RouterModule            
+    RouterModule,
+    ToastModule            
   ],
   exports: [
     LoginComponent         

@@ -1,7 +1,8 @@
 ﻿using backend.Data;
 using backend.DTOs.Dashboard;
 using backend.Entities;
-using backend.Repositories;
+using backend.Repositories.Clients;
+using backend.Services.Clients;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
@@ -10,13 +11,12 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ClientsController(IClientsRepository repo) : Controller
+    public class ClientsController(IClientsService service) : Controller
     {
         [HttpPost]
         public async Task<ActionResult<PaginatorDto<Client>>> SearchClients([FromBody] SearchRequestDto request)
         {
-            var results = await repo.GetClientsAsync(request);
-
+            var results = await service.GetFilteredClientsAsync(request);
             return Ok(results);
         }
 
@@ -24,7 +24,7 @@ namespace backend.Controllers
         [Route("create")]
         public async Task<IActionResult> CreateClient(Client client)
         {
-            var addedClient = await repo.AddClientAsync(client);
+            var addedClient = await service.AddClientAsync(client);
             return Ok(addedClient);
         }
 
@@ -34,7 +34,7 @@ namespace backend.Controllers
             if (id != client.ClientID)
                 return BadRequest("Mismatched ID");
 
-            var success = await repo.UpdateClient(client);
+            var success = await service.UpdateClientAsync(client);
             if (success)
                 return Ok(client); 
 
@@ -45,14 +45,14 @@ namespace backend.Controllers
         [HttpGet("new-clientID")]
         public async Task<ActionResult<string>> GetNextAccountNumber()
         {
-            var nextId = await repo.GetNextClientIdAsync();
+            var nextId = await service.GetNextClientIdAsync();
             return Ok(nextId);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Client>> GetClientById(int id)
         {
-            var client = await repo.GetClientByIdAsync(id);
+            var client = await service.GetClientByIdAsync(id);
             if (client == null) return NoContent();
             return Ok(client);
         }
