@@ -19,6 +19,10 @@ namespace backend.Data
          protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Client>().OwnsOne(c => c.BillingAddress);
+            builder.Entity<Client>().OwnsOne(c => c.DeliveryAddress);
+
             var hasher = new PasswordHasher<IdentityUser>();
 
             var user1 = new IdentityUser

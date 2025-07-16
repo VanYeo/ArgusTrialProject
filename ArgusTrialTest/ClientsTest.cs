@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ArgusTrialTest
 {
-    internal class GetClientsTest
+    internal class ClientsTest
     {
         private Mock<IClientsRepository> _mockRepo;
         private ClientsController _controller;
@@ -53,7 +53,7 @@ namespace ArgusTrialTest
         public async Task CreateClient_ValidClient_ReturnsOk()
         {
             var client = new Client { CompanyName = "New Co" };
-            _mockRepo.Setup(r => r.AddClient(client)).ReturnsAsync(client);
+            _mockRepo.Setup(r => r.AddClientAsync(client)).ReturnsAsync(client);
 
             var result = await _controller.CreateClient(client);
 

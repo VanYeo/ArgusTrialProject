@@ -1,0 +1,136 @@
+$argus-red: rgba(109, 0, 32, 1);
+$text-white: rgba(251, 251, 251, 1);
+
+.clients-rows {
+    background-color: rgba(250, 250, 249, 1);
+    cursor: pointer;
+  }
+
+.table {
+  box-shadow: 0 16px 10px 0 rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(236, 234, 231, 1);
+  border-radius: 8px;
+
+  thead tr th {
+    background-color: rgba(239, 238, 237, 1);
+    color: rgba(59, 56, 57, 1);
+    font-family: "AmpleSoft Bold", sans-serif;
+    font-size: 16px;
+  }
+
+  
+  td {
+    padding: 1rem;
+    
+  }
+
+  select {
+    border: 0;
+    border-bottom: 1px solid rgba(84, 81, 82, 1);
+    outline: 0;
+    border-radius: 0;
+
+    &:focus,
+    &:active {
+      box-shadow: none;
+      outline: none;
+    }
+
+    option {
+      border: none;
+
+      &:hover {
+        background-color: rgba(245, 245, 245, 1);
+      }
+
+      &:focus,
+      &:active {
+        background-color: $argus-red;
+      }
+    }
+  }
+
+  .page-num button {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+
+    &:hover {
+      background-color: rgba(239, 227, 230, 1);
+    }
+  }
+}
+
+table tbody tr.clients-rows:hover td {
+    background-color:#FAFAF9 !important;
+    cursor: pointer;
+  }
+
+select {
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.custom-select {
+  position: relative;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  width: 200px;
+  user-select: none;
+  border-bottom: 1px solid #ccc;
+}
+
+.options {
+  list-style: none;
+  margin-top: 1rem;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0, 4px, 8px, 0 rgba(0, 0, 0, 0.08);
+  position: absolute;
+  background: white;
+  width: 100%;
+  z-index: 10;
+  overflow-y: auto;
+}
+
+.options li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.options li.active {
+    background-color: $argus-red;
+    color: white;
+}
+
+.options li:hover {
+  background: rgba(239, 227, 230, 1);
+}
+.custom-select-wrapper {
+  position: relative;
+}
+.custom-select .selected {
+  min-height: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .text {
+    flex-grow: 1;
+    white-space: nowrap;
+  }
+
+  .arrow-icon {
+    margin-left: auto;
+    width: 12px;
+    height: 12px;
+  }
+}
+
+button.active {
+    background-color: $argus-red;
+    color: white;
+}

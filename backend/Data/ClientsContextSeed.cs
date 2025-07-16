@@ -1,4 +1,6 @@
 ﻿using backend.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace backend.Data
@@ -20,13 +22,21 @@ namespace backend.Data
 
                     if (clients == null || clients.Count == 0) return;
 
+                    var passwordHasher = new PasswordHasher<Client>();
+
+                    foreach (var client in clients)
+                    {
+                        // Hash the GeneratedPassword before saving
+                        client.GeneratedPassword = passwordHasher.HashPassword(client, client.GeneratedPassword);
+                    }
+
                     context.Clients.AddRange(clients);
                     await context.SaveChangesAsync();
-                    
+
                     // upd accountnumber to match clientid
                     foreach (var client in context.Clients)
                     {
-                        client.AccountNumber = client.ClientID.ToString("D6");
+                        client.AccountNumber = client.ClientID;
                     }
 
                     await context.SaveChangesAsync();

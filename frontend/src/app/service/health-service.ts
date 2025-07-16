@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HealthService {
-  private readonly healthUrl = 'http://localhost:5143/api/health';
+  private readonly healthUrl = 'https://localhost:7200/api/health';
 
   constructor(private http: HttpClient) { }
 

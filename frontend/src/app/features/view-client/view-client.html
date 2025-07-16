@@ -1,0 +1,228 @@
+<div class="content-area" *ngIf="client">
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center">
+      <a
+        class="bg-transparent border-0 pe-3"
+        routerLink="/clients"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <img src="icons/add-client/back-arrow.svg" alt="" />
+      </a>
+      <h1 class="m-0">{{client.companyName}}</h1>
+    </div>
+
+    <!-- edit button -->
+    <div>
+      <button
+        class="edit-btn"
+        [routerLink]="['/clients/edit', client.clientID]"
+      >
+        Edit
+      </button>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-xl-7 col-12 mt-3">
+      <div class="card gap-0">
+        <!-- general info, login, account -->
+        <div *ngFor="let section of clientDetails">
+          <h5>{{ section.header }}</h5>
+          <div class="row mt-3">
+            <div
+              class="col-md-6"
+              *ngFor="let field of section.fields; let i = index"
+            >
+              <div class="d-flex mb-2">
+                <div class="text-muted w-50">{{ field.label }}</div>
+                <div class="w-50 text-start">
+                  <input
+                    *ngIf="field.name === 'generatedPassword'"
+                    type="password"
+                    class="form-control-plaintext"
+                    [value]="client[field.name]"
+                    readonly
+                  />
+                  <ng-container *ngIf="field.name !== 'generatedPassword'">
+                    <span
+                      *ngIf="field.name === 'mobile' || field.name === 'phone' || field.name === 'accountPhone'"
+                      class="pe-2"
+                      >(+64)</span
+                    >
+                    {{ client[field.name] }}
+                  </ng-container>
+                  <ng-template #defaultValue>
+                    {{ client[field.name] }}
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="p-0" />
+        </div>
+
+        <!-- address -->
+        <h5>Delivery Address</h5>
+        <div class="row">
+          <!-- billing address -->
+          <div class="col-md-6 col-12 mt-3">
+            <div class="card gap-1 beige-card">
+              <div class="mb-2">Bill To</div>
+              <div class="d-flex mb-2" *ngFor="let field of addresses">
+                <div class="text-muted w-50">{{ field.label }}</div>
+                <div class="w-50 text-start">
+                  {{ client.billingAddress[field.name] }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- shipping address -->
+          <div class="col-md-6 col-12 mt-3">
+            <div class="card gap-1 beige-card">
+              <div class="mb-2">Ship To</div>
+              <div class="d-flex mb-2" *ngFor="let field of addresses">
+                <div class="text-muted w-50">{{ field.label }}</div>
+                <div class="w-50 text-start">
+                  {{ client.deliveryAddress[field.name] }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="p-0" />
+
+        <!-- notes -->
+        <h5>Notes</h5>
+        <div
+          class="card beige-card"
+          *ngIf="client.notes && client.notes !== ''; else noNotes"
+        >
+          {{ client.notes }}
+        </div>
+        <ng-template #noNotes>
+          <div>No notes.</div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="col-xl-5 col-12">
+      <div class="d-flex gap-3 w-100 my-3">
+        <button class="pink-btn border-0 flex-fill w-100">
+          <div class="flex flex-col text-start">
+            <h5 class="mb-4">View Assets</h5>
+            <img src="icons/view-client/car.svg" alt="" />
+          </div>
+        </button>
+        <button class="pink-btn border-0 flex-fill w-100">
+          <div class="flex flex-col text-start">
+            <h5 class="mb-4">View User</h5>
+            <img src="icons/view-client/users.svg" alt="" />
+          </div>
+        </button>
+        <button class="pink-btn flex-fill w-100 bg-white">
+          <div class="flex flex-col text-start">
+            <h5 class="mb-4 text-decoration-underline">Open Web Page</h5>
+            <img src="icons/dashboard/expand.svg" alt="" />
+          </div>
+        </button>
+      </div>
+
+      <!-- options, plug ins, integrations -->
+      <div class="card g-4">
+        <h5>Options, Plug-ins, and Integrations</h5>
+        <div class="beige-card card gap-1" *ngFor="let section of extraOptions">
+          <p class="text-muted mb-0 ms-2">{{section.header}}</p>
+          <div class="row">
+            <div
+              class="col-4 d-flex pb-2 align-items-center justify-content-center"
+              *ngFor="let option of section.fields"
+            >
+              <span class="pe-2 m-0 w-75 text-start">{{ option.label }}</span>
+              <img
+                class="text-end icon"
+                src="icons/view-client/green-check.svg"
+                *ngIf="client[option.name]"
+                alt=""
+              />
+              <img
+                class="text-end icon"
+                src="icons/view-client/red-cross.svg"
+                *ngIf="!client[option.name]"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- contract -->
+      <div class="card mt-3">
+        <h5>Contract</h5>
+        <div class="row">
+          <!-- contract dates -->
+          <div class="col-md-6 col-12">
+            <div class="beige-card card gap-1">
+              <div class="d-flex justify-content-between">
+                <p class="m-0">Start Date</p>
+                <div>{{ client.startDate | date: 'dd/MM/yyyy' }}</div>
+              </div>
+
+              <div class="d-flex justify-content-between">
+                <p class="m-0">End Date</p>
+                <div>
+                  {{ client.contractTerm=='Open' ? '-' :
+                  onCalculateContractExpiry(client.startDate,
+                  client.contractTerm, client.customValue) | date:
+                  'dd/MM/yyyy'}}
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between">
+                <p class="m-0">Period</p>
+                <div>
+                  {{ client.contractTerm ? client.contractTerm :
+                  client.customValue }}&nbsp;
+                  <span *ngIf="client.contractTerm!='Open'">months</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- contract checkboxes -->
+          <div class="col-md-6 col-12 card gap-1">
+            <div
+              class="d-flex justify-content-between"
+              *ngFor="let option of contractCheckboxes"
+            >
+              <div>{{ option.label }}</div>
+              <img
+                src="icons/view-client/green-check.svg"
+                alt=""
+                *ngIf="client[option.name]"
+              />
+              <img
+                src="icons/view-client/red-cross.svg"
+                alt=""
+                *ngIf="!client[option.name]"
+              />
+            </div>
+          </div>
+
+          <!-- contract plans -->
+          <div class="col-12 card gap-1">
+            <div
+              class="d-flex justify-content-between"
+              *ngFor="let plan of contractPlans"
+            >
+              <p>{{ plan.label }}</p>
+              <div>{{ client[plan.name] }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
