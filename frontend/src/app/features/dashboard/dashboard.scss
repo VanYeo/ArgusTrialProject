@@ -1,4 +1,4 @@
-$button-red: rgba(109, 0, 32, 1);
+$argus-red: rgba(109, 0, 32, 1);
 $text-white: rgba(251, 251, 251, 1);
 
 /* Mobile responsiveness */
@@ -16,7 +16,7 @@ $text-white: rgba(251, 251, 251, 1);
 .content-area {
   flex: 1;
   padding: 1rem 2rem;
-  overflow-y: auto;
+  max-height: 100vh;
 }
 
 .content-area h1 {
@@ -53,12 +53,16 @@ $text-white: rgba(251, 251, 251, 1);
   }
 }
 
-.button-red {
-  padding: 0.75rem 0;
+.add-client-btn {
+  padding: 0.5rem 2.5rem;
+  border-radius: 8px;
+  background-color: $argus-red;
+  color: white;
+  border: 0;
 }
 
 span {
-  color: $button-red;
+  color: $argus-red;
 }
 
 .dropdown-toggle {
@@ -98,7 +102,7 @@ span {
   }
 
   span {
-    color: $button-red;
+    color: $argus-red;
   }
 
   .button-red {
@@ -117,7 +121,7 @@ span {
   .clear-all {
     background-color: transparent;
     border: 0;
-    color: $button-red;
+    color: $argus-red;
   }
 
   label{
@@ -136,7 +140,7 @@ input[type="checkbox"] {
   margin: 0;
 
   &:checked {
-    background-color: $button-red;
+    background-color: $argus-red;
   }
   &::after {
     display: none;
@@ -148,8 +152,8 @@ input[type="checkbox"] {
   border: 1px solid rgba(145, 134, 129, 1);
 
   &:checked {
-    background-color: $button-red;
-    border-color: $button-red;
+    background-color: $argus-red;
+    border-color: $argus-red;
   }
 }
 
@@ -197,7 +201,7 @@ input[type="checkbox"] {
 
       &:focus,
       &:active {
-        background-color: $button-red;
+        background-color: $argus-red;
       }
     }
   }
@@ -213,8 +217,18 @@ input[type="checkbox"] {
 
     &:active,
     &:focus {
-      background-color: $button-red;
+      background-color: $argus-red;
       color: white;
     }
   }
 }
+
+table tbody tr.clients-rows:hover td {
+    background-color:#FAFAF9 !important; // change this color as you like
+    cursor: pointer;
+  }
+
+table tbody tr td {
+  padding-bottom: 0;
+}
+

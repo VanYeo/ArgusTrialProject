@@ -2,6 +2,7 @@
 using backend.DTOs.Dashboard;
 using backend.Entities;
 using backend.Helpers;
+using backend.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,13 +10,13 @@ using System.Linq.Dynamic.Core;
 
 namespace backend.Repositories
 {
-    public class ClientsRepository(ClientsDbContext context) : IClientsRepository
+    public class ClientsRepository(ClientsDbContext context, IPasswordService passwordService) : IClientsRepository
     {
-        public async Task<Client> AddClient(Client client)
+
+        public async Task<Client> AddClientAsync(Client client)
         {
+            client.GeneratedPassword = passwordService.HashPassword(client, client.GeneratedPassword);
             context.Clients.Add(client);
-            await context.SaveChangesAsync();
-            client.AccountNumber = client.ClientID.ToString("D6");
             await context.SaveChangesAsync();
             return client;
         }
@@ -25,9 +26,16 @@ namespace backend.Repositories
             return context.Clients.Any(x => x.ClientID == id);
         }
 
-        public Task<Client?> GetClientByIdAsync(int id)
+        public async Task<Client?> GetClientByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            if (!ClientExists(id))
+            {
+                return null;
+            }
+            var client = await context.Clients.FindAsync(id);
+
+            return client;
+
         }
 
         public async Task<PaginatorDto<SearchResponseDto>> GetClientsAsync(SearchRequestDto request)
@@ -38,12 +46,12 @@ namespace backend.Repositories
             if (request.SelectedFilters.Contains("active", StringComparer.OrdinalIgnoreCase) &&
                 !request.SelectedFilters.Contains("inactive", StringComparer.OrdinalIgnoreCase))
             {
-                query = query.Where(c => c.Options.ActiveAccount == true);
+                query = query.Where(c => c.ActiveAccount == true);
             }
             else if (!request.SelectedFilters.Contains("active", StringComparer.OrdinalIgnoreCase) &&
                      request.SelectedFilters.Contains("inactive", StringComparer.OrdinalIgnoreCase))
             {
-                query = query.Where(c => c.Options.ActiveAccount == false);
+                query = query.Where(c => c.ActiveAccount == false);
             }
 
             // Keyword Filtering
@@ -77,7 +85,17 @@ namespace backend.Repositories
                         {
                             if (actualField.Equals("ContractEnd", StringComparison.OrdinalIgnoreCase))
                             {
-                                filters.Add("StartDate.AddMonths(ContractTermMonths ?? 0).Date == @{paramIndex}");
+                                var contractTermProperty = typeof(Client).GetProperty("ContractTerm");
+                                if (contractTermProperty?.PropertyType == typeof(int) || contractTermProperty?.PropertyType == typeof(int?))
+                                {
+                                    filters.Add("StartDate.AddMonths(ContractTerm ?? 0).Date == @{paramIndex}");
+                                }
+                                else if (contractTermProperty?.PropertyType == typeof(string))
+                                {
+                                    // Handle contract term as string (e.g., "Open") – use fallback logic
+                                    filters.Add("StartDate == @{paramIndex}");
+                                }
+
                                 values.Add(dateValue.Date);
                             }
                             else
@@ -125,11 +143,12 @@ namespace backend.Repositories
                 Contact = c.Contact,
                 Phone = c.Phone,
                 Mobile = c.Mobile,
-                Email = c.Email,
+                LoginEmail = c.LoginEmail,
                 Connections = c.Connections,
                 StartDate = c.StartDate,
-                ContractTermMonths = c.ContractTermMonths,
-                ActiveAccount = c.Options.ActiveAccount
+                ContractTerm = c.ContractTerm,
+                ActiveAccount = c.ActiveAccount,
+                CustomValue = c.CustomValue
             });
 
             var pagedList = await PaginatedList<SearchResponseDto>.CreateAsync(projected, request.PageIndex, request.PageSize);
@@ -151,9 +170,35 @@ namespace backend.Repositories
             return await context.SaveChangesAsync() > 0;
         }
 
-        public void UpdateClient(Client client)
+        public async Task<bool> UpdateClient(Client updatedClient)
         {
-            context.Entry(client).State = EntityState.Modified;
+            var existing = await context.Clients
+                .Include(c => c.BillingAddress)
+                .Include(c => c.DeliveryAddress)
+                .FirstOrDefaultAsync(c => c.ClientID == updatedClient.ClientID);
+
+            if (existing == null) return false;
+
+            context.Entry(existing).CurrentValues.SetValues(updatedClient);
+
+            if (updatedClient.BillingAddress != null)
+            {
+                context.Entry(existing.BillingAddress!).CurrentValues.SetValues(updatedClient.BillingAddress);
+            }
+
+            if (updatedClient.DeliveryAddress != null)
+            {
+                context.Entry(existing.DeliveryAddress!).CurrentValues.SetValues(updatedClient.DeliveryAddress);
+            }
+
+            return await context.SaveChangesAsync() > 0;
+        }
+
+
+        public async Task<int> GetNextClientIdAsync()
+        {
+            var maxId = await context.Clients.MaxAsync(c => (int?)c.ClientID) ?? 0;
+            return maxId + 1;
         }
     }
 }

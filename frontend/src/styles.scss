@@ -1,9 +1,11 @@
+@use '@angular/material' as mat;
+$argus-red: rgba(109, 0, 32, 1);
 .button-red {
-    background-color: rgba(109, 0, 32, 1);
-    color: rgba(251, 251, 251, 1);
-    border-radius: 8px;
-    padding: 0.5rem 1.5rem;
-    border: 0;
+  background-color: rgba(109, 0, 32, 1);
+  color: rgba(251, 251, 251, 1);
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  border: 0;
 }
 
 body,
@@ -14,57 +16,64 @@ button,
 input,
 textarea,
 select {
-    font-family: 'AmpleSoft Regular', sans-serif
+  font-family: "AmpleSoft Regular", sans-serif;
 }
+
 
 h1 {
-    font-family: 'AmpleSoft Bold', sans-serif;
+  color: rgba(35, 31, 32, 1);
+  font-family: "AmpleSoft Regular", sans-serif;
+  font-size: 40px;
 }
 
-p{
-    font-family: 'AmpleSoft Light', sans-serif;
-}
-
-@font-face {
-    font-family: 'AmpleSoft Bold';
-    /* Choose a name for your font */
-    src: url('/fonts/amplesoft/AmpleSoftPro-Bold.woff') format('truetype');
-    /* Adjust path and format as needed */
-    font-weight: 700;
-    font-style: normal;
+p {
+  font-family: "AmpleSoft Light", sans-serif;
 }
 
 @font-face {
-    font-family: 'AmpleSoft Regular';
-    /* Choose a name for your font */
-    src: url('/fonts/amplesoft/AmpleSoftPro-Regular.woff') format('truetype');
-    /* Adjust path and format as needed */
-    font-weight: 400;
-    font-style: normal;
+  font-family: "AmpleSoft Bold";
+  /* Choose a name for your font */
+  src: url("/fonts/amplesoft/AmpleSoftPro-Bold.woff") format("truetype");
+  /* Adjust path and format as needed */
+  font-weight: 700;
+  font-style: normal;
 }
 
+@font-face {
+  font-family: "AmpleSoft Regular";
+  /* Choose a name for your font */
+  src: url("/fonts/amplesoft/AmpleSoftPro-Regular.woff") format("truetype");
+  /* Adjust path and format as needed */
+  font-weight: 400;
+  font-style: normal;
+}
 
 @font-face {
-    font-family: 'AmpleSoft Light';
-    /* Choose a name for your font */
-    src: url('/fonts/amplesoft/AmpleSoftPro-Light.woff') format('truetype');
-    /* Adjust path and format as needed */
-    font-weight: normal;
-    font-style: normal;
+  font-family: "AmpleSoft Light";
+  /* Choose a name for your font */
+  src: url("/fonts/amplesoft/AmpleSoftPro-Light.woff") format("truetype");
+  /* Adjust path and format as needed */
+  font-weight: normal;
+  font-style: normal;
 }
 /* Change tooltip background and text color */
 .tooltip-inner {
-  background-color: rgba(255, 255, 255, 1) !important; /* Your desired background */
-  color: rgba(35, 31, 32, 1) !important;            /* Your desired text color */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    1
+  ) !important; /* Your desired background */
+  color: rgba(35, 31, 32, 1) !important; /* Your desired text color */
   font-size: 1rem;
   border-radius: 8px;
   padding: 8px 16px;
-  box-shadow: -6px 2px 24px 0 rgba(0,0,0,0.12)
+  box-shadow: -6px 2px 24px 0 rgba(0, 0, 0, 0.12);
 }
 
 /* Change the tooltip arrow color (for right placement) */
 .bs-tooltip-end .tooltip-arrow::before {
-  background-color:  rgba(255, 255, 255, 1) !important;
+  background-color: rgba(255, 255, 255, 1) !important;
 }
 
 /* For Bootstrap 5 tooltip arrow (all placements) */
@@ -83,4 +92,48 @@ p{
 .bs-tooltip-start .tooltip-arrow::before,
 .bs-tooltip-auto[data-popper-placement^="left"] .tooltip-arrow::before {
   border-left-color: #fff !important;
+}
+
+
+:root {
+  @include mat.form-field-overrides((
+    filled-container-color: transparent,
+    container-text-font: 'AmpleSoft Regular',
+    subscript-text-font: 'AmpleSoft Regular',
+    outlined-label-text-font: 'AmpleSoft Regular',
+    filled-label-text-font: 'AmpleSoft Regular',
+    hover-state-layer-opacity: 0,
+    container-text-size: 16px
+  ));
+
+  @include mat.checkbox-overrides((
+    selected-icon-color: $argus-red
+  ));
+
+  @include mat.datepicker-overrides((
+    calendar-container-background-color: white,
+    calendar-text-font: 'AmpleSoft Regular',
+    calendar-date-selected-state-background-color: $argus-red,
+    calendar-date-selected-state-text-color: white,
+    calendar-date-today-outline-color: $argus-red
+  ));
+
+  @include mat.radio-overrides((
+    ripple-color: $argus-red,
+    label-text-color: rgba(108, 106, 106, 1),
+    selected-focus-icon-color: $argus-red,
+    selected-pressed-icon-color: $argus-red,
+    selected-icon-color: $argus-red,
+    unselected-hover-icon-color: $argus-red,
+    selected-hover-icon-color: $argus-red,
+    checked-ripple-color: $argus-red,
+    label-text-font: 'AmpleSoft Regular'
+  ));
+}
+.card {
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.03);
+  padding: 1rem 1.5rem;
+  gap: 1rem;
 }

@@ -11,6 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { SearchComboboxModule } from '../../shared/search-combobox/search-combobox-module';
+import { AddClientModule } from '../add-client/add-client-module';
+import { ViewClientModule } from '../view-client/view-client-module';
+import { ClientsTableModule } from '../clients-table/clients-table-module';
 
 
 
@@ -29,7 +32,10 @@ import { SearchComboboxModule } from '../../shared/search-combobox/search-combob
     MatButtonModule,
     MatCheckboxModule,
     MatDividerModule,
-    SearchComboboxModule
+    SearchComboboxModule,
+    AddClientModule,
+    RouterModule,
+    ClientsTableModule
   ]
 })
 export class DashboardModule { }

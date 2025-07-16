@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -21,16 +21,46 @@ import {
   getSelectedColumns,
   ColumnOption,
 } from '../../service/columns';
+import {
+  calculateContractExpiry,
+  hasContractExpired,
+} from '../../service/contractDate';
+import { ViewClientService } from '../view-client/view-client.service';
+import { Client } from '../view-client/client-model';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-dashboard',
   standalone: false,
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   Math = Math;
   filterDropdownOpen = false;
   columnsDropdownOpen = false;
+  openForm = false;
+  selectedClient: any = null;
+  isEditMode = false;
+  showForm = false;
+
+  onAddClient() {
+    this.selectedClient = null;
+    this.isEditMode = false;
+    this.showForm = true;
+  }
+
+  onEditClient(client: any) {
+    this.selectedClient = client;
+    this.isEditMode = true;
+    this.showForm = true;
+  }
+
+  constructor(
+    private dashboardService: DashboardService,
+    private router: Router,
+    private viewClientService: ViewClientService
+  ) {}
 
   ngOnInit() {
     document.addEventListener('click', this.closeDropdowns.bind(this));
@@ -48,12 +78,11 @@ export class DashboardComponent implements OnInit {
 
   toggleSidebar() {
     this.opened = !this.opened;
-    console.log('Sidebar opened:', this.opened);
   }
 
   opened = true;
-
-  filterSections = [
+  selectAllCheckedFilters = true;
+  filterSections: FilterSection[] = [
     {
       title: 'Type',
       options: [
@@ -63,9 +92,6 @@ export class DashboardComponent implements OnInit {
     },
   ];
 
-  selectAllCheckedFilters = true;
-
-  //filter
   onToggleAllFilters() {
     toggleAllFilters(this.filterSections, this.selectAllCheckedFilters);
   }
@@ -81,7 +107,6 @@ export class DashboardComponent implements OnInit {
 
   onApplyFilters() {
     this.selectedFilters = getSelectedFilters(this.filterSections);
-    console.log(this.selectedFilters);
     this.search();
   }
 
@@ -99,9 +124,8 @@ export class DashboardComponent implements OnInit {
   ];
 
   columnsSectionsTemp = [...this.columnsSections.map((col) => ({ ...col }))];
-
   selectAllCheckedColumns = true;
-  // toggle columns
+
   onToggleAllColumns() {
     toggleAllColumns(this.columnsSectionsTemp, this.selectAllCheckedColumns);
   }
@@ -121,26 +145,17 @@ export class DashboardComponent implements OnInit {
     this.columnsSections = this.columnsSectionsTemp.map((col) => ({ ...col }));
   }
 
-  isColumnChecked(field: string): boolean {
-    return this.columnsSections.some((col) => col.id === field && col.checked);
-  }
-
-  // search
   keyword: string = '';
   selectedFields = ['CompanyName', 'Email'];
   sortBy = 'clientID';
   sortDirection = 'asc';
-  pageIndex: number = 1;
-  pageSize: number = 10;
-  clients: any[] = [];
-  contractExpiry = '';
-  totalCount: number = 0;
-  hasNextPage: boolean = true;
+  pageIndex = 1;
+  pageSize = 10;
+  totalCount = 0;
+  hasNextPage = true;
+  clients: Client[] = [];
   selectedFilters: string[] = [];
 
-  private dashboardService = inject(DashboardService);
-
-  // handle from child: search combobox changes
   onSearchChange(searchRequest: SearchRequest) {
     this.keyword = searchRequest.keyword;
     this.selectedFields = this.mapFiltersToFields(searchRequest.filters);
@@ -148,7 +163,6 @@ export class DashboardComponent implements OnInit {
     this.search();
   }
 
-  // map to backend filters
   private mapFiltersToFields(filterIds: string[]): string[] {
     const fieldMapping: { [key: string]: string } = {
       clientID: 'ClientID',
@@ -157,11 +171,10 @@ export class DashboardComponent implements OnInit {
       contact: 'Contact',
       phone: 'Phone',
       mobile: 'Mobile',
-      email: 'Email',
+      email: 'loginEmail',
       contractEnd: 'ContractEnd',
       connections: 'Connections',
     };
-
     return filterIds.map((id) => fieldMapping[id]).filter((field) => field);
   }
 
@@ -176,82 +189,38 @@ export class DashboardComponent implements OnInit {
       selectedFilters: this.selectedFilters,
     };
 
+    console.log('[DashboardComponent] Sending search payload:', payload);
+
     this.dashboardService.searchClients(payload).subscribe((res: any) => {
-      console.log('Received response:', res);
       this.clients = res.items;
       this.pageIndex = res.pageIndex || 1;
       this.pageSize = res.pageSize || this.pageSize;
       this.totalCount = res.totalCount;
       this.hasNextPage = res.hasNextPage;
+
+      console.log('[DashboardComponent] Updated clients:', this.clients);
     });
   }
 
-  // pagination
-  onPaginationChange() {
+  onPaginationChange(newSize: number): void {
+    console.log('[DashboardComponent] Page size changed to:', newSize);
+    this.pageSize = newSize;
     this.pageIndex = 1;
-    console.log('Page size changed to:', this.pageSize);
     this.search();
   }
 
-  prevPage() {
-    if (this.pageIndex > 1) {
-      this.pageIndex--;
-      this.search();
-    }
+  onPageChange(newPage: number) {
+    this.pageIndex = newPage;
+    this.search();
   }
 
-  nextPage() {
-    if (this.hasNextPage) {
-      this.pageIndex++;
-      this.search();
-    }
+  onViewClientDetails(clientId: number) {
+    this.router.navigate(['/clients', clientId]);
   }
 
-  getPageNumbers(): number[] {
-    return getPageNumbers(this.pageIndex, this.totalCount, this.pageSize);
-  }
-
-  goToPage(page: number): void {
-    if (page !== -1 && page !== this.pageIndex) {
-      this.pageIndex = page;
-      this.search();
-    }
-  }
-
-  // contract end logic
-  calculateContractExpiry(
-    startDate: string | null,
-    contractTermMonths: number | null
-  ): Date | null {
-    if (
-      !startDate ||
-      contractTermMonths === null ||
-      contractTermMonths === undefined
-    )
-      return null;
-
-    const date = new Date(startDate);
-    date.setMonth(date.getMonth() + contractTermMonths);
-    return date;
-  }
-
-  hasContractExpired(
-    startDate: string | null,
-    contractTermMonths: number | null
-  ) {
-    const expiryDate = this.calculateContractExpiry(
-      startDate,
-      contractTermMonths
-    );
-    if (expiryDate != null) {
-      if (expiryDate <= new Date()) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  viewClient(client: any[]) {
-    console.log('redirect to client view');
+  onCloseForm() {
+    this.showForm = false;
+    this.selectedClient = null;
+    this.isEditMode = false;
   }
 }

@@ -1,0 +1,148 @@
+<!-- dashboard -->
+<table class="table mt-4 rounded-4 mb-3">
+  <thead>
+    <tr class="text-center">
+      <th *ngFor="let column of columnsSections" [hidden]="!column.checked">
+        {{ column.label }}
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr
+      class="text-center clients-rows"
+      *ngFor="let client of clients"
+      (click)="viewClientDetails(client.clientID)"
+    >
+      <!-- Dynamically show only checked columns -->
+      <td *ngIf="isColumnChecked('clientID')">{{ client.clientID }}</td>
+      <td *ngIf="isColumnChecked('companyName')">{{ client.companyName }}</td>
+      <td *ngIf="isColumnChecked('tradingName')">{{ client.tradingName }}</td>
+      <td *ngIf="isColumnChecked('contact')">{{ client.contact }}</td>
+      <td *ngIf="isColumnChecked('phone')">{{ client.phone }}</td>
+      <td *ngIf="isColumnChecked('mobile')">{{ client.mobile }}</td>
+      <td *ngIf="isColumnChecked('email')">{{ client.loginEmail }}</td>
+
+      <!-- Contract End Column with conditional formatting -->
+      <td *ngIf="isColumnChecked('contractEnd')">
+        <ng-container
+          *ngIf="onCalculateContractExpiry(client.startDate, client.contractTerm, client.customValue) as expiry"
+        >
+          <span
+            [class.text-black]="!onHasContractExpired(client.startDate, client.contractTerm, client.customValue)"
+            [class.text-danger]="onHasContractExpired(client.startDate, client.contractTerm, client.customValue)"
+          >
+            {{ expiry | date: 'dd/MM/yyyy' }}
+          </span>
+        </ng-container>
+        <ng-container
+          *ngIf="!onCalculateContractExpiry(client.startDate, client.contractTerm, client.customValue)"
+        >
+          -
+        </ng-container>
+      </td>
+
+      <td *ngIf="isColumnChecked('connections')">{{ client.connections }}</td>
+
+      <td *ngIf="isColumnChecked('actions')" class="text-center gap-2">
+        <button class="btn btn-transparent">
+          <img src="icons/dashboard/expand.svg" alt="expand" />
+        </button>
+        <button class="btn btn-transparent">
+          <img src="icons/dashboard/car.svg" alt="expand" />
+        </button>
+        <button class="btn btn-transparent">
+          <img src="icons/dashboard/more.svg" alt="expand" />
+        </button>
+      </td>
+    </tr>
+
+    <!-- pagination -->
+    <tr *ngIf="clients.length!=0">
+      <td colspan="10">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <div class="custom-select-wrapper d-flex align-items-center" #pageSizeDropdown>
+              <div class="text-nowrap">Rows per page</div>
+
+              <!-- Hidden native select -->
+              <select [(ngModel)]="pageSize" hidden>
+                <option *ngFor="let size of [5, 10, 20, 50]" [value]="size">
+                  {{ size }}
+                </option>
+              </select>
+
+              <!-- Custom styled dropdown -->
+              <div
+                class="custom-select w-100"
+                (click)="togglePageSizeDropdown()"
+              >
+                <span
+                  class="selected d-flex justify-content-between align-items-center"
+                >
+                  <span class="text me-2">{{ pageSize }}</span>
+                  <img
+                    class="arrow-icon"
+                    src="icons/down-arrow-grey.svg"
+                    alt=""
+                  />
+                </span>
+
+                <ul class="options" *ngIf="showPageSizeDropdown">
+                  <li
+                    *ngFor="let size of [5, 10, 20, 50]"
+                    (click)="selectPageSize(size); $event.stopPropagation()"
+                    [class.active]="size === pageSize"
+                  >
+                    {{ size }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="ms-3 d-inline">
+              {{ totalCount === 0 ? '0 - 0' : ((pageIndex - 1) * pageSize + 1) +
+              ' - ' + Math.min(pageIndex * pageSize, totalCount) }} of {{
+              totalCount }}
+            </div>
+          </div>
+
+          <div class="gap-2">
+            <button
+              class="btn btn-transparent btn-sm border-0"
+              [disabled]="pageIndex === 1"
+              (click)="prevPage()"
+            >
+              <
+            </button>
+            <div class="d-inline page-num text-center">
+              <ng-container *ngFor="let page of getPageNumbers()">
+                <button
+                  class="btn btn-sm mx-1 rounded-circle border-0"
+                  [class.active]="+page === +pageIndex"
+                  [disabled]="page === -1"
+                  (click)="goToPage(page)"
+                >
+                  {{ page === -1 ? '...' : page }}
+                </button>
+              </ng-container>
+            </div>
+
+            <button
+              class="btn btn-transparent btn-sm"
+              [disabled]="!hasNextPage"
+              (click)="nextPage()"
+            >
+              >
+            </button>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+  <tbody *ngIf="clients.length==0">
+    <tr>
+      <td colspan="10" class="text-center">No results found.</td>
+    </tr>
+  </tbody>
+</table>

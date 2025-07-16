@@ -4,6 +4,7 @@ using backend.Entities;
 using backend.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace backend.Controllers
 {
@@ -23,32 +24,37 @@ namespace backend.Controllers
         [Route("create")]
         public async Task<IActionResult> CreateClient(Client client)
         {
-            await repo.AddClient(client); // Await the async method
-            return Ok();
+            var addedClient = await repo.AddClientAsync(client);
+            return Ok(addedClient);
         }
 
-        [HttpPut]
-        public async Task<ActionResult> UpdateClient(int id, Client client)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateClient(int id, Client client)
         {
-            if (client.ClientID != id || !ClientExists(id))
-            {
-                return BadRequest("cannot update client");
-            }
+            if (id != client.ClientID)
+                return BadRequest("Mismatched ID");
 
-            repo.UpdateClient(client);
+            var success = await repo.UpdateClient(client);
+            if (success)
+                return Ok(client); 
 
-            if (await repo.SaveChangesAsync())
-            {
-                return NoContent();
-            }
-
-            return BadRequest("Problem updating client");
+            return NotFound();
         }
 
 
-        private bool ClientExists(int id)
+        [HttpGet("new-clientID")]
+        public async Task<ActionResult<string>> GetNextAccountNumber()
         {
-            return repo.ClientExists(id);
+            var nextId = await repo.GetNextClientIdAsync();
+            return Ok(nextId);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Client>> GetClientById(int id)
+        {
+            var client = await repo.GetClientByIdAsync(id);
+            if (client == null) return NoContent();
+            return Ok(client);
         }
     }
 }
