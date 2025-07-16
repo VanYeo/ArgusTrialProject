@@ -15,7 +15,7 @@
       [class.active]="isDropdownOpen"
       type="button"
     >
-      <img src="icons/down-arrow-grey.svg" alt="" />
+      <img class="toggle-arrow" [class.rotated]="isDropdownOpen" src="icons/down-arrow-grey.svg" alt="" />
     </button>
     <div *ngIf="this.searchKeyword!=''" class="d-flex align-items-center">
       <span

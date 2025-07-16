@@ -1,0 +1,179 @@
+@use "@angular/material" as mat;
+$argus-red: rgba(109, 0, 32, 1);
+
+form {
+  padding: 16px 32px;
+}
+.card {
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.03);
+  padding: 1rem 1.5rem;
+  gap: 1rem;
+}
+
+.cancel-btn {
+  border: 1px solid $argus-red;
+  color: $argus-red;
+  padding: 0.5rem 2.5rem;
+  background: white;
+  border-radius: 8px;
+  width: 160px;
+  height: 44px;
+}
+
+.add-client-btn {
+  padding: 0.5rem 2.75rem;
+  border-radius: 8px;
+  background-color: $argus-red;
+  color: white;
+  border: 0;
+}
+
+.col-md-6 {
+  margin: 0;
+}
+
+.background {
+  background-color: rgba(250, 250, 249, 1);
+  border: none;
+  border-radius: 8px span {
+    color: $argus-red;
+  }
+}
+
+.custom-checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: $argus-red;
+    margin-right: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  label {
+    cursor: pointer;
+    font-weight: 500;
+  }
+}
+
+.months-input {
+  background-color: transparent;
+  padding: 8px 6px;
+  border: 1px solid rgba(182, 180, 181, 1);
+  border-radius: 5px;
+  max-width: 76px;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+}
+
+select {
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.custom-select {
+  position: relative;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  width: 200px;
+  user-select: none;
+  border-bottom: 1px solid #ccc;
+}
+
+.options {
+  list-style: none;
+  margin-top: 1rem;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0, 4px, 8px, 0 rgba(0, 0, 0, 0.08);
+  position: absolute;
+  background: white;
+  width: 100%;
+  z-index: 10;
+  overflow-y: auto;
+}
+
+.options li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.options li:hover {
+  background: rgba(239, 227, 230, 1);
+}
+
+.dropdown-label.floating {
+  top: -10px;
+  font-size: 12px;
+  color: #555;
+  background: white;
+  padding: 0 4px;
+}
+
+.form-floating-custom {
+  position: relative;
+  margin-bottom: 1.5rem;
+
+  .custom-label {
+    position: absolute;
+    bottom: 10px;
+    color: rgba(35, 31, 32, 1);
+    font-size: 16px;
+    transition: all 0.2s ease;
+    pointer-events: none;
+  }
+
+  .floating {
+    top: -10px;
+    font-size: 12px;
+    color: rgba(84, 81, 82, 1);
+    background: none;
+    padding: 0 4px;
+  }
+}
+
+.custom-select .selected {
+  min-height: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .text {
+    flex-grow: 1;
+    white-space: nowrap;
+  }
+
+  .arrow-icon {
+    margin-left: auto;
+    width: 12px;
+    height: 12px;
+  }
+}
+textarea {
+  border-radius: 8px;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+}
+
+.disabled-field {
+  background-color: rgba(206, 205, 205, 1);
+}
+
+.copy {
+  color: $argus-red;
+}

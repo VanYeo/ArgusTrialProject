@@ -12,6 +12,7 @@ import { DashboardModule } from './features/dashboard/dashboard-module';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     RouterModule,
     BrowserAnimationsModule,
     NavbarModule,
-    MatSidenavModule
+    MatSidenavModule,
   ],
   providers: [
     provideBrowserGlobalErrorListeners()

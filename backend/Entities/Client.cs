@@ -1,119 +1,73 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace backend.Entities
 {
-    [Index(nameof(Email), IsUnique = true)]
+    public class Address
+    {
+        public string Street { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
+        public string State { get; set; } = string.Empty;
+        public string Zip { get; set; } = string.Empty;
+        public string Country { get; set; } = string.Empty;
+    }
+
     public class Client
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ClientID { get; set; }
+        public int AccountNumber { get; set; }
 
-        public string? AccountNumber { get; set; }
-        public string CompanyName { get; set; } = null!;
-        public string? TradingName { get; set; }
-        public string? Contact { get; set; }
-        public string? Phone { get; set; }
-        public string? Mobile { get; set; }
+        public string CompanyName { get; set; } = string.Empty;
+        public string TradingName { get; set; } = string.Empty;
+        public string Contact { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string Mobile { get; set; } = string.Empty;
         public int Connections { get; set; }
 
-        public string Email { get; set; } = null!;
+        public string LoginEmail { get; set; } = string.Empty;
+        public string GeneratedPassword { get; set; } = string.Empty;
 
-        public DateTime StartDate { get; set; }
-        public int? ContractTermMonths { get; set; }
-        public string? ContractType { get; set; }
+        public string AccountName { get; set; } = string.Empty;
+        public string AccountEmail { get; set; } = string.Empty;
+        public string AccountEmailBill { get; set; } = string.Empty;
+        public string AccountPhone { get; set; } = string.Empty;
+        public string AccountCompanyName { get; set; } = string.Empty;
+        public string AccountManager { get; set; } = string.Empty;
 
-        public string? Notes { get; set; }
-
-        public AccountDetail? AccountDetail { get; set; }
-        public ICollection<Address> Addresses { get; set; } = new List<Address>();
-        public ClientOptions? Options { get; set; }
-        public ClientPlugins? Plugins { get; set; }
-        public ClientIntegrations? Integrations { get; set; }
-        public DefaultPlans? Plans { get; set; }
-    }
-
-    public class AccountDetail
-    {
-        [Key]
-        public int ClientID { get; set; }
-        public Client? Client { get; set; } = null!;
-
-        public string? AccountName { get; set; }
-        public string? AccountEmail { get; set; }
-        public string? EmailBillTo { get; set; }
-        public string? AccountPhone { get; set; }
-        public string? AccountManager { get; set; }
-    }
-
-    public class Address
-    {
-        [Key]
-        public int AddressID { get; set; } // Primary key, auto-generated
-
-        [ForeignKey("Client")]
-        public int ClientID { get; set; }  // Foreign key to Client
-
-        public Client? Client { get; set; }
-        public string Type { get; set; } = null!;
-        public string? Street { get; set; }
-        public string? City { get; set; }
-        public string? State { get; set; }
-        public string? Zip { get; set; }
-        public string? Country { get; set; }
-    }
-
-    public class ClientOptions
-    {
-        [Key]
-        public int ClientID { get; set; }
-        public Client? Client { get; set; } = null!;
+        public Address BillingAddress { get; set; } = new Address();
+        public Address DeliveryAddress { get; set; } = new Address();
 
         public bool ActiveAccount { get; set; }
         public bool MasterAccount { get; set; }
-        public bool BillingCSV { get; set; }
-        public bool GOG { get; set; }
-        public bool EJobsClient { get; set; }
-    }
-
-    public class ClientPlugins
-    {
-        [Key]
-        public int ClientID { get; set; }
-        public Client? Client { get; set; } = null!;
-
+        public bool BillingCsv { get; set; }
+        public bool EjobsClient { get; set; }
+        public bool Gog { get; set; }
+        public bool NonBillingAccount { get; set; }
+        public bool PVBSClient { get; set; }
+        public bool VworkClient { get; set; }
+        public bool Sso { get; set; }
+        public bool ApiKey { get; set; }
+        public bool AssignPPToAllAVLs { get; set; }
+        public bool SendMessage { get; set; }
+        public bool SosEventPush { get; set; }
         public bool SmartRenew { get; set; }
         public bool CustomBranding { get; set; }
-        public bool SendMessage { get; set; }
-    }
-
-    public class ClientIntegrations
-    {
-        [Key]
-        public int ClientID { get; set; }
-        public Client? Client { get; set; } = null!;
-
-        public bool SOSEventPush { get; set; }
-        public bool PVBSClient { get; set; }
-        public bool VWorkClient { get; set; }
-        public bool APIKey { get; set; }
-        public bool SSO { get; set; }
-    }
-
-    public class DefaultPlans
-    {
-        [Key]
-        public int ClientID { get; set; }
-        public Client? Client { get; set; } = null!;
-
-        public string? RoadRedPlan { get; set; }
-        public string? IoTPlan { get; set; }
-        public string? SoftwarePlan { get; set; }
-
-        public bool AssignPPToAllAULS { get; set; }
+        public bool WorkClient { get; set; }
         public bool RolloverAgreement { get; set; }
-        public bool IsNonBillingAccount { get; set; }
+
+        public string RoadRedPlan { get; set; } = string.Empty;
+        public string IotPlan { get; set; } = string.Empty;
+        public string SoftwarePlan { get; set; } = string.Empty;
+
+        public string? ContractTerm { get; set; }
+        public int CustomValue { get; set; }
+
+        public string Notes { get; set; } = string.Empty;
+
+        public DateTime StartDate { get; set; }
+       
     }
 }

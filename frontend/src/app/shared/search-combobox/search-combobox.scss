@@ -53,11 +53,11 @@
   border-radius: 0 6px 6px 0;
   color: #666;
 
-  .arrow-icon {
+  .toggle-arrow {
     transition: transform 0.2s ease;
   }
 
-  .arrow-icon.rotated {
+  .toggle-arrow.rotated {
     transform: rotate(180deg);
   }
 }

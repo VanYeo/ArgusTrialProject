@@ -1,6 +1,6 @@
-<div class="content-area h-100">
+<div class="content-area">
   <h1>Clients</h1>
-  <div class="row d-flex align-items-center">
+  <div class="row d-flex align-items-center mb-3">
     <!-- Left side: Search / Filter / Columns -->
     <div class="col-5">
       <div class="d-flex align-items-center w-100 gap-2">
@@ -69,7 +69,9 @@
               <button class="clear-all" (click)="onClearAllFilters()">
                 Clear All
               </button>
-              <button class="button-red" (click)="onApplyFilters()">Apply</button>
+              <button class="button-red" (click)="onApplyFilters()">
+                Apply
+              </button>
             </li>
           </ul>
         </div>
@@ -127,7 +129,9 @@
               <button class="clear-all" (click)="onClearAllColumns()">
                 Clear All
               </button>
-              <button class="button-red" (click)="onApplyColumns()">Apply</button>
+              <button class="button-red" (click)="onApplyColumns()">
+                Apply
+              </button>
             </li>
           </ul>
         </div>
@@ -139,139 +143,22 @@
 
     <!-- Right-aligned Add Client button -->
     <div class="col-2 d-flex justify-content-end">
-      <button
-        class="button-red w-50"
-        routerLink="/add-client"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
+      <button type="button" class="add-client-btn" [routerLink]="['/clients/add']">
         Add Client
       </button>
     </div>
   </div>
-
-  <!-- dashboard -->
-  <table class="table mt-4 rounded-4">
-    <thead>
-      <tr class="text-center">
-        <th *ngFor="let column of columnsSections" [hidden]="!column.checked">
-          {{ column.label }}
-        </th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <tr
-        class="text-center clients-rows"
-        *ngFor="let client of clients"
-        (click)="viewClient(client)"
-      >
-        <!-- Dynamically show only checked columns -->
-        <td *ngIf="isColumnChecked('clientID')">{{ client.clientID }}</td>
-        <td *ngIf="isColumnChecked('companyName')">{{ client.companyName }}</td>
-        <td *ngIf="isColumnChecked('tradingName')">{{ client.tradingName }}</td>
-        <td *ngIf="isColumnChecked('contact')">{{ client.contact }}</td>
-        <td *ngIf="isColumnChecked('phone')">{{ client.phone }}</td>
-        <td *ngIf="isColumnChecked('mobile')">{{ client.mobile }}</td>
-        <td *ngIf="isColumnChecked('email')">{{ client.email }}</td>
-
-        <!-- Contract End Column with conditional formatting -->
-        <td *ngIf="isColumnChecked('contractEnd')">
-          <ng-container
-            *ngIf="calculateContractExpiry(client.startDate, client.contractTermMonths) as expiry"
-          >
-            <span
-              [class.text-black]="!hasContractExpired(client.startDate, client.contractTermMonths)"
-              [class.text-danger]="hasContractExpired(client.startDate, client.contractTermMonths)"
-            >
-              {{ expiry | date: 'dd/MM/yyyy' }}
-            </span>
-          </ng-container>
-          <ng-container
-            *ngIf="!calculateContractExpiry(client.startDate, client.contractTermMonths)"
-          >
-            -
-          </ng-container>
-        </td>
-
-        <td *ngIf="isColumnChecked('connections')">{{ client.connections }}</td>
-
-        <td *ngIf="isColumnChecked('actions')" class="text-center gap-2">
-          <button class="btn btn-transparent">
-            <img src="icons/dashboard/expand.svg" alt="expand" />
-          </button>
-          <button class="btn btn-transparent">
-            <img src="icons/dashboard/car.svg" alt="expand" />
-          </button>
-          <button class="btn btn-transparent">
-            <img src="icons/dashboard/more.svg" alt="expand" />
-          </button>
-        </td>
-      </tr>
-
-      <!-- pagination -->
-      <tr *ngIf="clients.length!=0">
-        <td colspan="10">
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              Rows per page:
-              <select
-                [(ngModel)]="pageSize"
-                (ngModelChange)="onPaginationChange()"
-              >
-                <option
-                  class="border border-0"
-                  *ngFor="let size of [5, 10, 20, 50]"
-                  [ngValue]="size"
-                >
-                  {{ size }}
-                </option>
-              </select>
-
-              <div class="ms-3 d-inline">
-                {{ totalCount === 0 ? '0 - 0' : ((pageIndex - 1) * pageSize + 1)
-                + ' - ' + Math.min(pageIndex * pageSize, totalCount) }} of {{
-                totalCount }}
-              </div>
-            </div>
-
-            <div class="gap-2">
-              <button
-                class="btn btn-transparent btn-sm"
-                [disabled]="pageIndex === 1"
-                (click)="prevPage()"
-              >
-                <
-              </button>
-              <div class="d-inline page-num text-center">
-                <ng-container *ngFor="let page of getPageNumbers()">
-                  <button
-                    class="btn btn-sm mx-1 rounded-circle"
-                    [class.active]="page === pageIndex"
-                    [disabled]="page === -1"
-                    (click)="goToPage(page)"
-                  >
-                    {{ page === -1 ? '...' : page }}
-                  </button>
-                </ng-container>
-              </div>
-
-              <button
-                class="btn btn-transparent btn-sm"
-                [disabled]="!hasNextPage"
-                (click)="nextPage()"
-              >
-                >
-              </button>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-    <tbody *ngIf="clients.length==0">
-      <tr>
-        <td colspan="10" class="text-center">No results found.</td>
-      </tr>
-    </tbody>
-  </table>
+  <app-clients-table
+    [clients]="clients"
+    [columnsSections]="columnsSections"
+    [pageIndex]="pageIndex"
+    [pageSize]="pageSize"
+    [totalCount]="totalCount"
+    [hasNextPage]="hasNextPage"
+    (pageChanged)="onPageChange($event)"
+    (pageSizeChanged)="onPaginationChange($event)"
+    (clientSelected)="onViewClientDetails($event)"
+  ></app-clients-table>
 </div>
+
+<router-outlet></router-outlet>

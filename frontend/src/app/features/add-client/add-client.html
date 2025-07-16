@@ -1,1 +1,517 @@
-<p>add-client works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="d-inline align-items-center d-flex">
+      <button
+        type="button"
+        class="bg-transparent border-0 d-inline pe-3"
+        (click)="handleCancel()"
+      >
+        <img src="icons/add-client/back-arrow.svg" alt="" />
+      </button>
+      <h1 class="m-0" *ngIf="!isEditMode; else editClient">Add Client</h1>
+      <ng-template #editClient>
+        <h1 class="m-0">Edit Client</h1>
+      </ng-template>
+    </div>
+    <div class="d-flex gap-2">
+      <button type="button" class="cancel-btn" (click)="handleCancel()">
+        Cancel
+      </button>
+      <button class="add-client-btn" type="submit" *ngIf="!isEditMode">
+        Add Client
+      </button>
+      <button class="add-client-btn" type="submit" *ngIf="isEditMode">
+        Save Changes
+      </button>
+    </div>
+  </div>
+  <div class="container-fluid py-4">
+    <div class="row g-4">
+      <!-- LEFT COLUMN -->
+      <div class="col-lg-7 col-md-12">
+        <!-- general info -->
+        <div class="card gap-2 p-4">
+          <h5>General Information</h5>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Account Number</mat-label>
+                <input matInput formControlName="accountNumber" />
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Company Name</mat-label>
+                <input
+                  matInput
+                  formControlName="companyName"
+                  placeholder="Enter company name"
+                />
+                <mat-error *ngIf="form.get('companyName')?.hasError('required')">
+                  Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Phone</mat-label>
+                <div class="d-flex align-items-center gap-2">
+                  <span *ngIf="phoneFocused || form.get('phone')?.value"
+                    >(+64)</span
+                  >
+                  <input
+                    matInput
+                    formControlName="phone"
+                    placeholder="Enter phone"
+                    (focus)="phoneFocused = true"
+                    (blur)="onPhoneBlur()"
+                  />
+                </div>
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('phone')?.hasError('required')"
+                >
+                  Required
+                </mat-error>
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('phone')?.hasError('pattern')"
+                >
+                  Must be 11 digits.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Mobile</mat-label>
+                <div class="d-flex align-items-center gap-2">
+                  <span *ngIf="mobileFocused || form.get('mobile')?.value"
+                    >(+64)</span
+                  >
+                  <input
+                    matInput
+                    formControlName="mobile"
+                    placeholder="Enter mobile"
+                    (focus)="mobileFocused = true"
+                    (blur)="onMobileBlur()"
+                  />
+                </div>
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('mobile')?.hasError('required')"
+                >
+                  Required
+                </mat-error>
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('mobile')?.hasError('pattern')"
+                >
+                  Must be 11 digits.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Contact</mat-label>
+                <input matInput formControlName="contact" />
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('contact')?.hasError('required')"
+                >
+                  Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Trading Name</mat-label>
+                <input matInput formControlName="tradingName" />
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('tradingName')?.hasError('required')"
+                >
+                  Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <!-- login -->
+        <div class="card gap-2 p-4 mt-4">
+          <h5>Login</h5>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="loginEmail" />
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('loginEmail')?.hasError('required')"
+                >
+                  Required
+                </mat-error>
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('loginEmail')?.hasError('email')"
+                >
+                  Invalid email
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Password</mat-label>
+                <input
+                  matInput
+                  [type]="hidePassword ? 'password' : 'text'"
+                  [value]="form.get('generatedPassword')?.value"
+                  disabled
+                />
+                <button
+                  type="button"
+                  class="border-0 bg-transparent"
+                  mat-icon-button
+                  matSuffix
+                  (click)="hidePassword = !hidePassword"
+                  [attr.aria-label]="'Toggle password visibility'"
+                  [attr.aria-pressed]="!hidePassword"
+                  tabindex="-1"
+                >
+                  <img src="icons/eye.svg" alt="eye" *ngIf="!hidePassword" />
+                  <img
+                    src="icons/eye_strikethrough.svg"
+                    alt="eye"
+                    *ngIf="hidePassword"
+                  />
+                </button>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <!-- account -->
+        <div class="card p-4 mt-4">
+          <h5>Account</h5>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="accountName" />
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('accountName')?.hasError('required')"
+                >
+                  Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="accountEmail" />
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('accountEmail')?.hasError('required')"
+                >
+                  Required
+                </mat-error>
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('accountEmail')?.hasError('email')"
+                >
+                  Invalid email format
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Email (Bill)</mat-label>
+                <input matInput formControlName="accountEmailBill" />
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('accountEmailBill')?.hasError('required')"
+                >
+                  Required
+                </mat-error>
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('accountEmailBill')?.hasError('email')"
+                >
+                  Invalid email format
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Phone</mat-label>
+                <div class="d-flex align-items-center gap-2">
+                  <span
+                    *ngIf="accountPhoneFocused || form.get('accountPhone')?.value"
+                    >(+64)</span
+                  >
+                  <input
+                    matInput
+                    formControlName="accountPhone"
+                    (focus)="accountPhoneFocused = true"
+                    (blur)="onAccountPhoneBlur()"
+                  />
+                </div>
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('accountPhone')?.hasError('required')"
+                >
+                  Required
+                </mat-error>
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('accountPhone')?.hasError('pattern')"
+                >
+                  Must be 11 digits.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Company Name</mat-label>
+                <input matInput formControlName="accountCompanyName" />
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('accountCompanyName')?.hasError('required')"
+                >
+                  Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w-100">
+                <mat-label>Account Manager</mat-label>
+                <input matInput formControlName="accountManager" />
+                <mat-error
+                  class="d-inline"
+                  *ngIf="form.get('accountManager')?.hasError('required')"
+                >
+                  Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <!-- address -->
+        <div class="card p-4 mt-4" [formGroup]="form">
+          <h5>Delivery Address</h5>
+          <div class="row g-4 mt-1">
+            <!-- Billing Address -->
+            <div class="col-md-6" [formGroupName]="'billingAddress'">
+              <div class="card p-3 gap-0 background">
+                <h5 class="m-0">Bill To</h5>
+
+                <ng-container
+                  *ngFor="let field of ['street', 'city', 'state', 'zip', 'country']"
+                >
+                  <mat-form-field class="w-100 mt-2">
+                    <mat-label>{{ field | titlecase }}</mat-label>
+                    <input matInput [formControlName]="field" />
+                    <mat-error *ngIf="billing.get(field)?.hasError('required')">
+                      Required
+                    </mat-error>
+                    <mat-error *ngIf="billing.get(field)?.hasError('pattern')">
+                      Must be 4 digits.
+                    </mat-error>
+                  </mat-form-field>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- Delivery Address -->
+            <div class="col-md-6" [formGroupName]="'deliveryAddress'">
+              <div class="card p-3 gap-0 background">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h5 class="m-0">Ship To</h5>
+                  <button
+                    type="button"
+                    class="btn p-0"
+                    (click)="copyFromBillingAddress()"
+                  >
+                    <img
+                      class="me-2"
+                      src="icons/add-client/copy.svg"
+                      alt="Copy"
+                    />
+                    <span class="copy">Copy from Billing Address</span>
+                  </button>
+                </div>
+
+                <ng-container
+                  *ngFor="let field of ['street', 'city', 'state', 'zip', 'country']"
+                >
+                  <mat-form-field class="w-100 mt-2">
+                    <mat-label>{{ field | titlecase }}</mat-label>
+                    <input matInput [formControlName]="field" />
+                    <mat-error
+                      *ngIf="delivery.get(field)?.hasError('required')"
+                    >
+                      Required
+                    </mat-error>
+                    <mat-error *ngIf="delivery.get(field)?.hasError('pattern')">
+                      Must be 4 digits.
+                    </mat-error>
+                  </mat-form-field>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- RIGHT COLUMN -->
+      <div class="col-lg-5 col-md-12">
+        <div class="card gap-0">
+          <h5>Options, Plugins, and Integrations</h5>
+          <!-- checkboxes here -->
+          <div *ngFor="let group of checkboxGroups" class="mb-3">
+            <h6>{{ group.label }}</h6>
+            <div class="row">
+              <div
+                class="col-md-4 custom-checkbox mt-2"
+                *ngFor="let option of group.options"
+              >
+                <input
+                  type="checkbox"
+                  [formControlName]="option.controlName"
+                  [id]="option.controlName"
+                />
+                <label [for]="option.controlName">{{option.label}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- contract card -->
+        <div class="card p-4 mt-4">
+          <h5>Contract</h5>
+          <div class="card background">
+            <h5>Contract Period</h5>
+            <!-- datepicker -->
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Start Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="startDate"
+                placeholder="Choose a date"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="form.get('startDate')?.hasError('required')">
+                Date is required.
+              </mat-error>
+            </mat-form-field>
+
+            <!-- contract term -->
+            <mat-label>Choose an option</mat-label>
+            <mat-radio-group
+              formControlName="contractTerm"
+              class="d-flex justify-content-between"
+              required
+            >
+              <mat-radio-button
+                *ngFor="let option of contractOptions"
+                [value]="option.value"
+              >
+                {{ option.label }}
+              </mat-radio-button>
+
+              <mat-radio-button [value]="'custom'">
+                Other
+
+                <input
+                  type="number"
+                  formControlName="customValue"
+                  class="months-input ms-2"
+                />
+              </mat-radio-button>
+            </mat-radio-group>
+            <mat-error *ngIf="form.get('contractTerm')?.hasError('required')">
+              Please select an option.
+            </mat-error>
+
+            <!-- plan options -->
+            <div
+              *ngFor="let plan of planTypes; let i = index"
+              class="form-floating-custom"
+              #dropdownGroup
+            >
+              <label
+                [class.floating]="showDropdowns[i] || form.get(plan.name)?.value"
+                class="custom-label"
+              >
+                {{ plan.label }}
+              </label>
+
+              <select [formControlName]="plan.name" hidden>
+                <option *ngFor="let option of planOptions" [value]="option">
+                  {{ option }}
+                </option>
+              </select>
+
+              <div class="custom-select w-100" (click)="toggleDropdown(i)">
+                <span
+                  class="selected d-flex justify-content-between align-items-center"
+                >
+                  <span class="text">
+                    {{ form.get(plan.name)?.value || ' ' }}
+                  </span>
+                  <img
+                    class="arrow-icon"
+                    src="icons/down-arrow-grey.svg"
+                    alt=""
+                  />
+                </span>
+
+                <ul class="options" *ngIf="showDropdowns[i]">
+                  <li
+                    *ngFor="let option of planOptions"
+                    (click)="selectOption(plan.name, i, option); $event.stopPropagation()"
+                  >
+                    {{ option }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- contract checkboxes -->
+            <div
+              class="d-flex flex-row justify-content-between custom-checkbox mt-2"
+            >
+              <div
+                *ngFor="let option of contractCheckboxes"
+                class="d-flex align-items-center"
+              >
+                <input
+                  type="checkbox"
+                  [formControlName]="option.name"
+                  [id]="option.name"
+                />
+                <label [for]="option.name">{{option.label}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-4 mt-4">
+          <h5>Notes</h5>
+          <textarea
+            class="background py-2 px-3"
+            rows="10"
+            formControlName="notes"
+          >
+          </textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

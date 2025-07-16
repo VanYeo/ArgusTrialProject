@@ -141,15 +141,15 @@ namespace backend.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a48cf44b-9195-469c-bf21-3bbb26eaaadb",
+                            ConcurrencyStamp = "bc6dc425-f9b3-4386-9df9-f4c3ea8c2b81",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEA7yR1I2/Lp0vjphUYI/lkgSdPSgrojoBo0RvR4o/SFj5hdtTDkLtHKoV4beeo1Djw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENLifuNLc1nNwELByyB2j0SZjfPayY0jyLfdabjP2SQ8qVLJ9neJiN+4qvjMG4yBrg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "670c1012-8318-49ae-a487-82d2d948b221",
+                            SecurityStamp = "ed6e1595-3120-44ef-86e4-1ecdbdf098cd",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -157,15 +157,15 @@ namespace backend.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "83dc0ddb-1512-481b-b678-6ffd556f95c8",
+                            ConcurrencyStamp = "a21ab95c-243c-4ae4-81be-b82937e94351",
                             Email = "user@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@GMAIL.COM",
                             NormalizedUserName = "USER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIhS23kmZMnBzfcBmD2RxI2abd1OrqxVkvLTiCVu+rPmo4guTyeDiTvS55GxBLoqaA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBC7s/ZBmJbaMiQKBiFuvgVj3lUcRwHwC744Nfm9MQij08o9E2WhKER15ppn0dI3MA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bf2e8f02-4659-41cb-bda3-c76ebf528395",
+                            SecurityStamp = "79f64bb8-312b-49ce-a003-b86283943a20",
                             TwoFactorEnabled = false,
                             UserName = "user@gmail.com"
                         });
@@ -252,68 +252,6 @@ namespace backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("backend.Entities.AccountDetail", b =>
-                {
-                    b.Property<int>("ClientID")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("AccountEmail")
-                        .HasColumnType("text");
-
-                    b.Property<string>("AccountManager")
-                        .HasColumnType("text");
-
-                    b.Property<string>("AccountName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("AccountPhone")
-                        .HasColumnType("text");
-
-                    b.Property<string>("EmailBillTo")
-                        .HasColumnType("text");
-
-                    b.HasKey("ClientID");
-
-                    b.ToTable("AccountDetail");
-                });
-
-            modelBuilder.Entity("backend.Entities.Address", b =>
-                {
-                    b.Property<int>("AddressID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AddressID"));
-
-                    b.Property<string>("City")
-                        .HasColumnType("text");
-
-                    b.Property<int>("ClientID")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("text");
-
-                    b.Property<string>("State")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Street")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Zip")
-                        .HasColumnType("text");
-
-                    b.HasKey("AddressID");
-
-                    b.HasIndex("ClientID");
-
-                    b.ToTable("Address");
-                });
-
             modelBuilder.Entity("backend.Entities.Client", b =>
                 {
                     b.Property<int>("ClientID")
@@ -322,8 +260,44 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ClientID"));
 
-                    b.Property<string>("AccountNumber")
+                    b.Property<string>("AccountCompanyName")
+                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("AccountEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("AccountEmailBill")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("AccountManager")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("AccountName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccountNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("AccountPhone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("ActiveAccount")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("ApiKey")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("AssignPPToAllAVLs")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("BillingCsv")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
@@ -333,97 +307,62 @@ namespace backend.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Contact")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("ContractTermMonths")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ContractType")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Mobile")
+                    b.Property<string>("ContractTerm")
                         .HasColumnType("text");
 
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
+                    b.Property<bool>("CustomBranding")
+                        .HasColumnType("boolean");
 
-                    b.Property<string>("Phone")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("TradingName")
-                        .HasColumnType("text");
-
-                    b.HasKey("ClientID");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Clients");
-                });
-
-            modelBuilder.Entity("backend.Entities.ClientIntegrations", b =>
-                {
-                    b.Property<int>("ClientID")
+                    b.Property<int>("CustomValue")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("APIKey")
+                    b.Property<bool>("EjobsClient")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("PVBSClient")
+                    b.Property<string>("GeneratedPassword")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Gog")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("SOSEventPush")
-                        .HasColumnType("boolean");
+                    b.Property<string>("IotPlan")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<bool>("SSO")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("VWorkClient")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("ClientID");
-
-                    b.ToTable("ClientIntegrations");
-                });
-
-            modelBuilder.Entity("backend.Entities.ClientOptions", b =>
-                {
-                    b.Property<int>("ClientID")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("ActiveAccount")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("BillingCSV")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("EJobsClient")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("GOG")
-                        .HasColumnType("boolean");
+                    b.Property<string>("LoginEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("MasterAccount")
                         .HasColumnType("boolean");
 
-                    b.HasKey("ClientID");
+                    b.Property<string>("Mobile")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.ToTable("ClientOptions");
-                });
+                    b.Property<bool>("NonBillingAccount")
+                        .HasColumnType("boolean");
 
-            modelBuilder.Entity("backend.Entities.ClientPlugins", b =>
-                {
-                    b.Property<int>("ClientID")
-                        .HasColumnType("integer");
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<bool>("CustomBranding")
+                    b.Property<bool>("PVBSClient")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoadRedPlan")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("RolloverAgreement")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("SendMessage")
@@ -432,37 +371,32 @@ namespace backend.Migrations
                     b.Property<bool>("SmartRenew")
                         .HasColumnType("boolean");
 
-                    b.HasKey("ClientID");
-
-                    b.ToTable("ClientPlugins");
-                });
-
-            modelBuilder.Entity("backend.Entities.DefaultPlans", b =>
-                {
-                    b.Property<int>("ClientID")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("AssignPPToAllAULS")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("IoTPlan")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsNonBillingAccount")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("RoadRedPlan")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("RolloverAgreement")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("SoftwarePlan")
+                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("SosEventPush")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Sso")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("TradingName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("VworkClient")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("WorkClient")
+                        .HasColumnType("boolean");
 
                     b.HasKey("ClientID");
 
-                    b.ToTable("DefaultPlans");
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -516,85 +450,79 @@ namespace backend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("backend.Entities.AccountDetail", b =>
-                {
-                    b.HasOne("backend.Entities.Client", "Client")
-                        .WithOne("AccountDetail")
-                        .HasForeignKey("backend.Entities.AccountDetail", "ClientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("backend.Entities.Address", b =>
-                {
-                    b.HasOne("backend.Entities.Client", "Client")
-                        .WithMany("Addresses")
-                        .HasForeignKey("ClientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("backend.Entities.ClientIntegrations", b =>
-                {
-                    b.HasOne("backend.Entities.Client", "Client")
-                        .WithOne("Integrations")
-                        .HasForeignKey("backend.Entities.ClientIntegrations", "ClientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("backend.Entities.ClientOptions", b =>
-                {
-                    b.HasOne("backend.Entities.Client", "Client")
-                        .WithOne("Options")
-                        .HasForeignKey("backend.Entities.ClientOptions", "ClientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("backend.Entities.ClientPlugins", b =>
-                {
-                    b.HasOne("backend.Entities.Client", "Client")
-                        .WithOne("Plugins")
-                        .HasForeignKey("backend.Entities.ClientPlugins", "ClientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("backend.Entities.DefaultPlans", b =>
-                {
-                    b.HasOne("backend.Entities.Client", "Client")
-                        .WithOne("Plans")
-                        .HasForeignKey("backend.Entities.DefaultPlans", "ClientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-                });
-
             modelBuilder.Entity("backend.Entities.Client", b =>
                 {
-                    b.Navigation("AccountDetail");
+                    b.OwnsOne("backend.Entities.Address", "BillingAddress", b1 =>
+                        {
+                            b1.Property<int>("ClientID")
+                                .HasColumnType("integer");
 
-                    b.Navigation("Addresses");
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("text");
 
-                    b.Navigation("Integrations");
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasColumnType("text");
 
-                    b.Navigation("Options");
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasColumnType("text");
 
-                    b.Navigation("Plans");
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasColumnType("text");
 
-                    b.Navigation("Plugins");
+                            b1.Property<string>("Zip")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("ClientID");
+
+                            b1.ToTable("Clients");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ClientID");
+                        });
+
+                    b.OwnsOne("backend.Entities.Address", "DeliveryAddress", b1 =>
+                        {
+                            b1.Property<int>("ClientID")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Zip")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("ClientID");
+
+                            b1.ToTable("Clients");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ClientID");
+                        });
+
+                    b.Navigation("BillingAddress")
+                        .IsRequired();
+
+                    b.Navigation("DeliveryAddress")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
