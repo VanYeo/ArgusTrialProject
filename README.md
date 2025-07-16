@@ -1,5 +1,4 @@
-**Argus Trial Project**
- Admin Client Management Portal
+**Argus Trial Project: Admin Client Management Portal**
 
 **Project Description**
 - The Argus Admin Portal is a secure internal tool designed to help Argus administrators manage client accounts. Key features include:
