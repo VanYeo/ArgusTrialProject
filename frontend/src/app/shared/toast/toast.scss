@@ -1,0 +1,10 @@
+.toast-container {
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1055; // higher than navbar/sidebar
+}
+
+.toast {
+  min-width: 250px;
+}

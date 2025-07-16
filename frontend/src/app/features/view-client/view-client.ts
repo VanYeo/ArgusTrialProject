@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AddressFields,
   Client,
@@ -9,7 +9,7 @@ import {
 } from './client-model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViewClientService } from './view-client.service';
-import { calculateContractExpiry } from '../../service/contractDate';
+import { calculateContractExpiry } from '../../service/contract-end-calculator';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({

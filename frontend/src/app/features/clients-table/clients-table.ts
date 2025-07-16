@@ -10,7 +10,7 @@ import { Client } from '../view-client/client-model';
 import {
   calculateContractExpiry,
   hasContractExpired,
-} from '../../service/contractDate';
+} from '../../service/contract-end-calculator';
 import { getPageNumbers } from '../../service/pagination';
 
 @Component({

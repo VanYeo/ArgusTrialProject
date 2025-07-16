@@ -15,6 +15,7 @@
       contractTermMonths === null ||
       contractTermMonths === undefined ||
       contractTermMonths === '' ||
+      contractTermMonths === 'custom' ||
       contractTermMonths.toLowerCase?.() === 'open'
     ) {
       if (!customValue || customValue === 0) {

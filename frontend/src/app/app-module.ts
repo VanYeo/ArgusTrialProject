@@ -13,10 +13,12 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { Toast } from './shard/toast/toast';
 
 @NgModule({
   declarations: [
-    App
+    App,
+    Toast
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,7 @@ import {
   OnInit,
   Output,
   QueryList,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import {
@@ -103,6 +104,7 @@ export class AddClientComponent implements OnInit {
   private router = inject(Router);
   ngOnInit(): void {
     console.log('🔥 AddClientComponent ngOnInit fired');
+
     const currentUrl = this.router.url;
 
     this.isEditMode = currentUrl.includes('/clients/edit');
@@ -117,15 +119,26 @@ export class AddClientComponent implements OnInit {
       }
 
       const clientId = Number(idParam);
-      console.log('[AddClientComponent] Edit Mode for ID:', clientId);
+      console.log('[AddClientCompofnent] Edit Mode for ID:', clientId);
 
       this.viewClientService.getClientById(clientId).subscribe({
         next: (client) => {
           this.client = client;
+          if (client.contractTerm === 'custom') {
+            client.customValue = Number(client.customValue);
+          }
+
           console.log('[AddClientComponent] Client data loaded:', client);
           this.form.patchValue(client);
-          if (client.contractTerm) {
-            this.form.get('contractTerm')?.setValue(client.contractTerm);
+          const contractTermValue = client.contractTerm?.toLowerCase();
+
+          if (contractTermValue === 'custom' || contractTermValue === '') {
+            this.form.get('contractTerm')?.setValue('custom');
+            this.form.get('customValue')?.setValue(client.customValue ?? null);
+          } else {
+            this.form
+              .get('contractTerm')
+              ?.setValue(contractTermValue ?? 'open');
           }
 
           if (client.billingAddress) {
@@ -262,7 +275,7 @@ export class AddClientComponent implements OnInit {
     { name: 'sso', value: false },
     { name: 'apiKey', value: false },
     { name: 'startDate', value: null, validators: [Validators.required] },
-    { name: 'contractTerm', value: '', validators: [Validators.required] },
+    { name: 'contractTerm', value: '36', validators: [Validators.required] },
     { name: 'customValue', value: 36 },
     { name: 'roadRedPlan', value: '' },
     { name: 'iotPlan', value: '' },
@@ -308,11 +321,6 @@ export class AddClientComponent implements OnInit {
     this.form.get('accountPhone')?.markAsTouched();
   }
 
-  shouldShowError(controlName: string): boolean {
-    const control = this.form.get(controlName);
-    return !!(control && control.invalid && (control.touched || control.dirty));
-  }
-
   // Copy billing -> delivery
   copyFromBillingAddress() {
     this.delivery.patchValue(this.billing.value);
@@ -343,6 +351,7 @@ export class AddClientComponent implements OnInit {
     }
   }
 
+  // generate password upon email input
   generateRandomPassword(length: number = 12): string {
     const chars =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#?!$';
@@ -350,10 +359,6 @@ export class AddClientComponent implements OnInit {
       { length },
       () => chars[Math.floor(Math.random() * chars.length)]
     ).join('');
-  }
-
-  closeForm() {
-    this.closed.emit();
   }
 
   // navigate to view client details from edit form
@@ -374,6 +379,9 @@ export class AddClientComponent implements OnInit {
     }
   }
 
+  @ViewChild('toast') toastComponent!: any;
+
+  // handle form submission
   onSubmit(): void {
     if (!this.form.contains('clientID')) {
       this.form.addControl(
@@ -396,26 +404,51 @@ export class AddClientComponent implements OnInit {
         console.log('Payload:', clientPayload);
         this.addClientService.updateClient(clientPayload).subscribe({
           next: (res) => {
-            console.log('✅ Client updated:', res);
+            console.log('Client updated:', res);
+            this.toastComponent.showToast(
+              'Client updated successfully!',
+              'success'
+            );
             this.closed.emit();
-            const clientId = this.form.get('clientID')?.value;
-            this.router.navigate(['/clients', clientId]); // Redirect to view client
+            setTimeout(() => {
+              const clientId = this.form.get('clientID')?.value;
+              this.router.navigate(['/clients', clientId]);
+            }, 1000);
           },
-          error: (err) => console.error('❌ Error updating client:', err),
+          error: (err) => {
+            console.error('Error updating client:', err),
+              this.toastComponent.showToast(
+                'Failed to update client.',
+                'error'
+              );
+          },
         });
       } else {
         this.addClientService.addClient(clientPayload).subscribe({
           next: (res) => {
-            console.log('✅ Client created:', res);
+            console.log('Client created:', res);
             this.closed.emit();
-            this.router.navigate(['/clients']); // move this inside next
+            setTimeout(() => {
+              this.router.navigate(['/clients']);
+            }, 1000);
+            this.toastComponent.showToast(
+              'Client added successfully!',
+              'success'
+            );
           },
-          error: (err) => console.error('❌ Error creating client:', err),
+          error: (err) => {
+            console.error('Error creating client:', err),
+              this.toastComponent.showToast('Error creating client', 'error');
+          },
         });
       }
     } else {
       console.log('Form is invalid');
       this.form.markAllAsTouched();
+      this.toastComponent.showToast(
+        'Form is invalid',
+        'error'
+      );
     }
   }
 }

@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
+import { ToastModule } from '../../shared/toast/toast-module';
 
 
 
@@ -25,7 +26,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatCheckboxModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    MatRadioModule
+    MatRadioModule,
+    ToastModule
   ],
   exports: [
     AddClientComponent

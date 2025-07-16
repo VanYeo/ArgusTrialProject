@@ -10,7 +10,7 @@
       </button>
       <h1 class="m-0" *ngIf="!isEditMode; else editClient">Add Client</h1>
       <ng-template #editClient>
-        <h1 class="m-0">Edit Client</h1>
+        <h1 class="m-0">{{client.companyName}}</h1>
       </ng-template>
     </div>
     <div class="d-flex gap-2">
@@ -425,7 +425,7 @@
                 {{ option.label }}
               </mat-radio-button>
 
-              <mat-radio-button [value]="'custom'">
+              <mat-radio-button value="custom">
                 Other
 
                 <input
@@ -515,3 +515,5 @@
     </div>
   </div>
 </form>
+
+<app-toast #toast></app-toast>

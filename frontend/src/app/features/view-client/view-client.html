@@ -183,9 +183,9 @@
               <div class="d-flex justify-content-between">
                 <p class="m-0">Period</p>
                 <div>
-                  {{ client.contractTerm ? client.contractTerm :
+                  {{ client.contractTerm!='custom' ? client.contractTerm :
                   client.customValue }}&nbsp;
-                  <span *ngIf="client.contractTerm!='Open'">months</span>
+                  <span *ngIf="client.contractTerm!='Open' && client.contractTerm!='open'">months</span>
                 </div>
               </div>
             </div>

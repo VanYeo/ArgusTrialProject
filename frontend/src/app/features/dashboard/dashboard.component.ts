@@ -20,11 +20,11 @@ import {
   updateSelectAllColumnsState,
   getSelectedColumns,
   ColumnOption,
-} from '../../service/columns';
+} from '../../service/table-columns-filter';
 import {
   calculateContractExpiry,
   hasContractExpired,
-} from '../../service/contractDate';
+} from '../../service/contract-end-calculator';
 import { ViewClientService } from '../view-client/view-client.service';
 import { Client } from '../view-client/client-model';
 import { Router } from '@angular/router';
