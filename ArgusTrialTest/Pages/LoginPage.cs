@@ -26,38 +26,24 @@ namespace ArgusTrialTest.Pages
             await _page.GotoAsync(LoginUrl);
         }
 
-        public async Task LogInUser()
+        public async Task LogIn(string email, string password)
         {
-            await UsernameInput.FillAsync(TestConfig.Useremail);
-            await PasswordInput.FillAsync(TestConfig.Userpass);
-            await _page.WaitForTimeoutAsync(2000);
-            await LoginButton.ClickAsync();
-        }
-        public async Task LogInAdmin()
-        {
-            await UsernameInput.FillAsync(TestConfig.Adminemail);
-            await PasswordInput.FillAsync(TestConfig.Adminpass);
+            await UsernameInput.FillAsync(email);
+            await PasswordInput.FillAsync(password);
             await _page.WaitForTimeoutAsync(2000);
             await LoginButton.ClickAsync();
         }
 
-        public async Task FillInAdminEmail()
+        public async Task FillInEmail(string email)
         {
-            await UsernameInput.FillAsync(TestConfig.Adminemail);
+            await UsernameInput.FillAsync(email);
         }
 
-        public async Task FillInAdminPass()
+        public async Task FillInPassword(string password)
         {
-            await PasswordInput.FillAsync(TestConfig.Adminpass);
+            await PasswordInput.FillAsync(password);
         }
-        public async Task FillInUserEmail()
-        {
-            await UsernameInput.FillAsync(TestConfig.Useremail);
-        }
-        public async Task FillInUserPass()
-        {
-            await PasswordInput.FillAsync(TestConfig.Userpass);
-        }
+
         public async Task ClickCancelPW()
         {
             await CancelPWButton.ClickAsync();
@@ -78,13 +64,6 @@ namespace ArgusTrialTest.Pages
         }
         public async Task ClickLogin()
         {
-            await LoginButton.ClickAsync();
-        }
-        public async Task LogInInvalid()
-        {
-            await UsernameInput.FillAsync(TestConfig.Invalidemail);
-            await PasswordInput.FillAsync(TestConfig.Invalidpass);
-            await _page.WaitForTimeoutAsync(2000);
             await LoginButton.ClickAsync();
         }
     }

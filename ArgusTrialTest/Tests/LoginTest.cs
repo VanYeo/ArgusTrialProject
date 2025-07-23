@@ -12,6 +12,7 @@ namespace ArgusTrialTest.Tests
     [Parallelizable(ParallelScope.Self)]
     [TestFixture]
     public class LoginTest : PageTest
+
     {
         // No constructor needed; use default
         [SetUp]
@@ -47,7 +48,7 @@ namespace ArgusTrialTest.Tests
             await loginPage.GoTo();
             var responseTask = Page.WaitForResponseAsync(response =>
                 response.Url.Contains("/dashboard") && response.Status == 200);
-            await loginPage.LogInUser();
+            await loginPage.LogIn(TestConfig.Useremail, TestConfig.Userpass);
             var response = await responseTask;
             Assert.That(response.Status, Is.EqualTo(200));
         }
@@ -60,7 +61,7 @@ namespace ArgusTrialTest.Tests
             await loginPage.GoTo();
             var responseTask = Page.WaitForResponseAsync(response =>
                 response.Url.Contains("/dashboard") && response.Status == 200);
-            await loginPage.LogInAdmin();
+            await loginPage.LogIn(TestConfig.Adminemail, TestConfig.Adminemail);
             var response = await responseTask;
             Assert.That(response.Status, Is.EqualTo(200));
         }
@@ -73,7 +74,7 @@ namespace ArgusTrialTest.Tests
             await loginPage.GoTo();
             var responseTask = Page.WaitForResponseAsync(response =>
                 response.Url.Contains("/login") && response.Status == 400);
-            await loginPage.FillInAdminPass();
+            await loginPage.FillInPassword(TestConfig.Adminpass);
             await loginPage.ClickLogin();
             var response = await responseTask;
             Assert.That(response.Status, Is.EqualTo(400));
@@ -90,7 +91,7 @@ namespace ArgusTrialTest.Tests
             await loginPage.GoTo();
             var responseTask = Page.WaitForResponseAsync(response =>
                 response.Url.Contains("/login") && response.Status == 400);
-            await loginPage.FillInAdminEmail();
+            await loginPage.FillInEmail(TestConfig.Adminemail);
             await loginPage.ClickLogin();
             var response = await responseTask;
             Assert.That(response.Status, Is.EqualTo(400));
@@ -107,7 +108,7 @@ namespace ArgusTrialTest.Tests
             await loginPage.GoTo();
             var responseTask = Page.WaitForResponseAsync(response =>
                 response.Url.Contains("/login") && response.Status == 400);
-            await loginPage.LogInInvalid();
+            await loginPage.LogIn(TestConfig.Invalidemail, TestConfig.Invalidpass);
             var response = await responseTask;
             Assert.That(response.Status, Is.EqualTo(400));
             var errorMessage = Page.Locator(".text-danger");
@@ -133,7 +134,7 @@ namespace ArgusTrialTest.Tests
             var loginPage = new LoginPage(Page);
             await loginPage.GoTo();
             await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/login");
-            await loginPage.FillInAdminPass();
+            await loginPage.FillInPassword(TestConfig.Invalidpass);
             for (int i = 0; i < 10; i++)
             {
                 await loginPage.ClickTogglePWVisibility();

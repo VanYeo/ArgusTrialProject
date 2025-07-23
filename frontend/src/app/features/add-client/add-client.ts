@@ -249,7 +249,13 @@ export class AddClientComponent implements OnInit {
 
   navigateToViewClient() {
     const clientId = this.form.get('clientID')?.value;
-    this.router.navigate(['/clients', clientId || '']);
+    console.log(clientId)
+    if (!clientId){
+      this.router.navigate(['/clients'])
+    }
+    else {
+      this.router.navigate(['/clients', clientId || '']);
+    }
   }
 
   handleCancel() {
