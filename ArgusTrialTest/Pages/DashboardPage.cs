@@ -250,7 +250,7 @@ namespace ArgusTrialTest.Pages
             }
         }
 
-        public async Task CheckClientIDsExists(List<string> clientID)
+        public async Task CheckClientIDsExists(List<string>? clientID)
         {
             var rows = TableRows;
             int rowCount = await rows.CountAsync();
