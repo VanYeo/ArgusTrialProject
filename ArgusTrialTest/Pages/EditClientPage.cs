@@ -5,23 +5,23 @@ using NUnit.Framework.Internal;
 using Microsoft.Playwright.NUnit;
 using NUnit.Framework.Constraints;
 using Microsoft.VisualBasic;
-using Microsoft.Win32.SafeHandles;
-
-
 
 namespace ArgusTrialTest.Pages
 
 {
-    public class AddClientPage
+    public class EditClientPage
     {
         private readonly IPage _page;
-        private string? _clientId;
-        private const string AddClientPageUrl = "http://127.0.0.1:57123/clients/add";
-        public AddClientPage(IPage page) => _page = page;
+        private readonly string _clientId;
+        private string EditClientPageUrl => $"http://127.0.0.1:57123/clients/edit/{_clientId}";
+        public EditClientPage(IPage page, string clientId)
+        {
+            _page = page;
+            _clientId = clientId;
+        }
 
+        public ILocator SaveButton => _page.GetByRole(AriaRole.Button, new() { Name = "Save Changes", Exact = true });
         public ILocator CancelButton => _page.GetByRole(AriaRole.Button, new() { Name = "Cancel", Exact = true });
-        public ILocator AddClientButton => _page.GetByRole(AriaRole.Button, new() { Name = "Add Client", Exact = true });
-
 
         public ILocator ClientId => _page.Locator("input[formcontrolname='accountNumber']");
         public ILocator CompanyName => _page.Locator("input[formcontrolname='companyName']");
@@ -88,28 +88,23 @@ namespace ArgusTrialTest.Pages
         public ILocator IOTPlanDropdown => _page.Locator("div:nth-child(6) > .custom-select");
         public ILocator SoftwarePlanDropdown => _page.Locator("div:nth-child(7) > .custom-select");
 
+        public ILocator NotesInput => _page.Locator("textarea");
         public async Task GoTo()
         {
-            await _page.GotoAsync(AddClientPageUrl);
+            await _page.GotoAsync(EditClientPageUrl);
         }
-
-        public async Task<string> GetClientId()
+        // public async Task FillInContractStartDate(string date)
+        // {
+        //     await ContractStartDateInput.FillAsync(date);
+        // }
+        public async Task ClickSaveButton()
         {
-            string clientId = await ClientId.InputValueAsync();
-            _clientId = clientId;
-            return clientId;
+            await SaveButton.ClickAsync();
         }
-
-        public async Task ClickAddClientButton()
-        {
-            await AddClientButton.ClickAsync();
-        }
-
         public async Task ClickCancelButton()
         {
             await CancelButton.ClickAsync();
         }
-
         public async Task FillGeneralInformation(
             string companyName,
             string phone,
@@ -158,19 +153,6 @@ namespace ArgusTrialTest.Pages
         {
             await CopyBillingAddress.ClickAsync();
         }
-
-        public async Task CheckForInvalidFormErrorMessage()
-        {
-            await Microsoft.Playwright.Assertions.Expect(InvalidFormErrorMessage).ToBeVisibleAsync();
-        }
-
-        public async Task CheckForRequiredErrorMessage()
-        {
-            int count = await RequiredFieldErrorMessage.CountAsync();
-            Console.WriteLine($"Count of required field error messages: {count}");
-            Assert.That(count, Is.GreaterThanOrEqualTo(1));
-        }
-
         public async Task CheckAllTickboxes()
         {
             await ActiveAccountCheckbox.CheckAsync();
@@ -186,6 +168,22 @@ namespace ArgusTrialTest.Pages
             await VworkClientCheckbox.CheckAsync();
             await SsoCheckbox.CheckAsync();
             await ApiKeyCheckbox.CheckAsync();
+        }
+        public async Task UncheckAllTickboxes()
+        {
+            await ActiveAccountCheckbox.UncheckAsync();
+            await MasterAccountCheckbox.UncheckAsync();
+            await BillingCsvCheckbox.UncheckAsync();
+            await EjobsClientCheckbox.UncheckAsync();
+            await GogCheckbox.UncheckAsync();
+            await SmartRenewCheckbox.UncheckAsync();
+            await CustomBrandingCheckbox.UncheckAsync();
+            await SendMessageCheckbox.UncheckAsync();
+            await SosEventPushCheckbox.UncheckAsync();
+            await PvbsClientCheckbox.UncheckAsync();
+            await VworkClientCheckbox.UncheckAsync();
+            await SsoCheckbox.UncheckAsync();
+            await ApiKeyCheckbox.UncheckAsync();
         }
         public async Task FillContractPeriod(string startDate, string? duration = null)
         {
@@ -221,6 +219,11 @@ namespace ArgusTrialTest.Pages
             await PPAVLCheckbox.UncheckAsync();
             await RolloverAgreementCheckbox.UncheckAsync();
             await NonBillingAccountLCheckbox.UncheckAsync();
+        }
+
+        public async Task FillNotes(string notes)
+        {
+            await NotesInput.FillAsync(notes);
         }
     }
 }

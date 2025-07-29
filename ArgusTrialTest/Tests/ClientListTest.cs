@@ -19,6 +19,7 @@ namespace ArgusTrialTest.Tests
         [SetUp]
         public async Task Setup()
         {
+            await Page.SetViewportSizeAsync(1920, 1080);
             await Context.Tracing.StartAsync(new()
             {
                 Title = $"{TestContext.CurrentContext.Test.ClassName}.{TestContext.CurrentContext.Test.Name}",
@@ -216,9 +217,11 @@ namespace ArgusTrialTest.Tests
             {
                 await dashboardPage.ClickPaginationNextButton();
             }
-            await dashboardPage.ClickPaginationPreviousButton();
-            await dashboardPage.ClickPaginationNextButton();
-            var clientIDs = new List<string> { "31", "32", "33" };
+            for (int i = 0; i < 3; i++)
+            {
+                await dashboardPage.ClickPaginationPreviousButton();
+            }
+            var clientIDs = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
             await dashboardPage.CheckClientIDsExists(clientIDs);
         }
         [Test]
