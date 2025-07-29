@@ -35,6 +35,6 @@ namespace ArgusTrialTest.Utils
         public static string ContractStartDate => "01-02-2025";
         public static string ContractDuration => "24";
 
-
+        public static string Notes => "This is a test note for the client.";
     }
 }
