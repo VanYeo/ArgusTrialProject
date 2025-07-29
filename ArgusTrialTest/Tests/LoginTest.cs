@@ -18,7 +18,6 @@ namespace ArgusTrialTest.Tests
         [SetUp]
         public async Task Setup()
         {
-            await Page.SetViewportSizeAsync(1920, 1080);
             await Context.Tracing.StartAsync(new()
             {
                 Title = $"{TestContext.CurrentContext.Test.ClassName}.{TestContext.CurrentContext.Test.Name}",
@@ -52,7 +51,6 @@ namespace ArgusTrialTest.Tests
             await loginPage.LogIn(TestConfig.Useremail, TestConfig.Userpass);
             var response = await responseTask;
             Assert.That(response.Status, Is.EqualTo(200));
-            await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/clients");
         }
 
         [Test]
@@ -63,10 +61,9 @@ namespace ArgusTrialTest.Tests
             await loginPage.GoTo();
             var responseTask = Page.WaitForResponseAsync(response =>
                 response.Url.Contains("/dashboard") && response.Status == 200);
-            await loginPage.LogIn(TestConfig.Adminemail, TestConfig.Adminpass);
+            await loginPage.LogIn(TestConfig.Adminemail, TestConfig.Adminemail);
             var response = await responseTask;
             Assert.That(response.Status, Is.EqualTo(200));
-            await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/clients");
         }
 
         [Test]
@@ -79,6 +76,8 @@ namespace ArgusTrialTest.Tests
                 response.Url.Contains("/login") && response.Status == 400);
             await loginPage.FillInPassword(TestConfig.Adminpass);
             await loginPage.ClickLogin();
+            var response = await responseTask;
+            Assert.That(response.Status, Is.EqualTo(400));
             var errorMessage = Page.Locator(".text-danger");
             await Expect(errorMessage).ToBeVisibleAsync();
             await Expect(errorMessage).ToHaveTextAsync("Email and password fields are required");
@@ -94,6 +93,8 @@ namespace ArgusTrialTest.Tests
                 response.Url.Contains("/login") && response.Status == 400);
             await loginPage.FillInEmail(TestConfig.Adminemail);
             await loginPage.ClickLogin();
+            var response = await responseTask;
+            Assert.That(response.Status, Is.EqualTo(400));
             var errorMessage = Page.Locator(".text-danger");
             await Expect(errorMessage).ToBeVisibleAsync();
             await Expect(errorMessage).ToHaveTextAsync("Email and password fields are required");

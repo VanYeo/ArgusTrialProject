@@ -3,10 +3,6 @@
   <Playwright>
     <BrowserName>chromium</BrowserName> <!-- chromium/webkit/firefox -->
     <LaunchOptions>
-      <ViewportSize>
-        <Width>1920</Width>
-        <Height>1080</Height>
-      </ViewportSize>
       <Headless>false</Headless> <!-- Headed mode -->
       <Channel>chrome</Channel>
       <Channel>msedge</Channel>

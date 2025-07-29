@@ -216,11 +216,5 @@ namespace ArgusTrialTest.Pages
             await RolloverAgreementCheckbox.CheckAsync();
             await NonBillingAccountLCheckbox.CheckAsync();
         }
-        public async Task UnselectContractOptionsCheckbox()
-        {
-            await PPAVLCheckbox.UncheckAsync();
-            await RolloverAgreementCheckbox.UncheckAsync();
-            await NonBillingAccountLCheckbox.UncheckAsync();
-        }
     }
 }

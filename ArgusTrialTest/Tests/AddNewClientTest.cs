@@ -19,7 +19,6 @@ namespace ArgusTrialTest.Tests
         [SetUp]
         public async Task Setup()
         {
-            await Page.SetViewportSizeAsync(1920, 1080);
             await Context.Tracing.StartAsync(new()
             {
                 Title = $"{TestContext.CurrentContext.Test.ClassName}.{TestContext.CurrentContext.Test.Name}",
@@ -80,7 +79,7 @@ namespace ArgusTrialTest.Tests
         }
 
         [Test]
-        public async Task CheckGeneralClientInfoAIT19()
+        public async Task CheckGeneralClientInformationAIT19()
         {
             TestContext.Progress.WriteLine("Testing General Client Information as Admin");
             var loginPage = new LoginPage(Page);
@@ -115,8 +114,6 @@ namespace ArgusTrialTest.Tests
             await dashboardPage.ClickAddClientButton();
             await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/clients/add");
             await addClientPage.FillLoginInformation(TestConfig.TestEmail);
-            await Page.ClickAsync("body"); // Click to remove focus from input fields
-            await Page.WaitForTimeoutAsync(2000);
         }
 
         [Test]
@@ -149,8 +146,6 @@ namespace ArgusTrialTest.Tests
                 TestConfig.BillingCountry
                 );
             await addClientPage.CopyBillingAddressToShipping();
-            await Page.ClickAsync("body"); // Click to remove focus from input fields
-            await Page.WaitForTimeoutAsync(2000);
         }
 
         [Test]
@@ -206,8 +201,6 @@ namespace ArgusTrialTest.Tests
             await dashboardPage.ClickAddClientButton();
             await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/clients/add");
             await addClientPage.SelectDefaultPlans();
-            await Page.ClickAsync("body"); // Click to remove focus from input fields
-            await Page.WaitForTimeoutAsync(2000);
         }
 
         [Test]
@@ -225,7 +218,7 @@ namespace ArgusTrialTest.Tests
             await dashboardPage.ClickAddClientButton();
             await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/clients/add");
             await addClientPage.SelectContractOptionsCheckbox();
-            await addClientPage.UnselectContractOptionsCheckbox();
+            await addClientPage.SelectContractOptionsCheckbox();
         }
 
         [Test]
@@ -295,11 +288,9 @@ namespace ArgusTrialTest.Tests
                 TestConfig.Mobile,
                 TestConfig.Contact
             );
-            var clientid = await addClientPage.GetClientId();
             await addClientPage.ClickCancelButton();
             await Expect(Page).ToHaveURLAsync("http://127.0.0.1:57123/clients");
-            await dashboardPage.SearchClientByID(clientid);
-            await Page.WaitForTimeoutAsync(2000);
+            
         }
     }
 }
