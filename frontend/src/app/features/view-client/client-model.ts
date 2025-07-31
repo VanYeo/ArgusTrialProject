@@ -106,7 +106,7 @@ export const ExtraOptions: {
     fields: [
       { name: 'activeAccount', label: 'Active Account' },
       { name: 'masterAccount', label: 'Master Account' },
-      { name: 'billingCSV', label: 'Billing CSV' },
+      { name: 'billingCsv', label: 'Billing CSV' },
       { name: 'ejobsClient', label: 'eJobs Client' },
       { name: 'gog', label: 'GOG' },
     ],
@@ -124,7 +124,7 @@ export const ExtraOptions: {
     fields: [
       { name: 'sosEventPush', label: 'SOS Event Push' },
       { name: 'pvbsClient', label: 'PVBS Client' },
-      { name: 'vWorkClient', label: 'vWork Client' },
+      { name: 'vworkClient', label: 'vWork Client' },
       { name: 'sso', label: ' SSO' },
       { name: 'apiKey', label: 'API Key' },
     ],

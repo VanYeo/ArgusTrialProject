@@ -312,7 +312,7 @@
                 >
                   <mat-form-field class="w-100 mt-2">
                     <mat-label>{{ field | titlecase }}</mat-label>
-                    <input matInput [formControlName]="field" />
+                    <input matInput [formControlName]="field" [attr.data-testid]="field" />
                     <mat-error *ngIf="billing.get(field)?.hasError('required')">
                       Required
                     </mat-error>
